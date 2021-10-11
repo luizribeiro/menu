@@ -9,7 +9,7 @@ app = Flask(__name__)
 
 lunch = [
     "Farro salad",
-    "Mediterranean salad",
+    "Omelet",
     "Bagel with egg",
     "Rice and beans",
     "Gnocchi with pumpkin",
@@ -18,17 +18,17 @@ lunch = [
     "Pita bread with baharat cauliflower",
     "Shakshuka",
     "Chickpea salad",
-    "Omelet",
+    "Mediterranean salad",
 ]
 
 dinner = [
-    "Burgers",
+    "Lentils with rice",
     "Tacos",
-    "Stuffed bell peppers",
+    "Roasted sweet potatoes",
     "Pasta al Funghi",
     "Mushroom Risotto",
-    "Lentils with rice",
-    "Roasted sweet potatoes",
+    "Burgers",
+    "Stuffed bell peppers",
     "Kibe ",
     "Tortellini soup",
     "Pizza",
@@ -69,6 +69,7 @@ def index():
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap" rel="stylesheet">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
         <style>
         body {
             font-family: 'Open Sans', sans-serif;
@@ -91,7 +92,7 @@ def index():
             border-bottom: 0px;
             max-width: max-content;
             margin: auto;
-            padding: 1em 4em 1em 2em;
+            padding: 1em 2em 1em 2em;
             background-color: #fff;
         }
 
