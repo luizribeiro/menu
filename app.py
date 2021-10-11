@@ -74,7 +74,7 @@ def index():
         body {
             font-family: 'Open Sans', sans-serif;
             font-weight: 400;
-            color: #2d3239
+            color: #2d3239;
         }
 
         b {
@@ -114,17 +114,28 @@ def index():
             text-align: center;
             padding: 0.25em;
         }
+
+        .today {
+        }
+
+        .future {
+            color: #999;
+        }
         </style>
     </head>
     <body>
     <h1>🍽️ Menu</h1>
     """
+    current_day = DAYS.index(datetime.now().strftime("%A"))
     output += "<ul>"
     for i, day in enumerate(DAYS):
-        output += f"<li><b>{day}</b></li>"
-        output += "<ul>"
-        output += f"<li><b>Lunch:</b> {lunch_menu[i]}</li>"
-        output += f"<li><b>Dinner:</b> {dinner_menu[i]}</li>"
+        if i < current_day:
+            continue
+        klass = "today" if i == current_day else "future"
+        output += f'<li class="{klass}"><b>{day}</b></li>'
+        output += '<ul class="{klass}">'
+        output += f'<li class="{klass}"><b>Lunch:</b> {lunch_menu[i]}</li>'
+        output += f'<li class="{klass}"><b>Dinner:</b> {dinner_menu[i]}</li>'
         output += "</ul>"
     output += "</ul>"
     output += "</body>"
