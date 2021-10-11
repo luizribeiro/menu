@@ -76,17 +76,47 @@ def index():
             color: #2d3239
         }
 
+        b {
+            font-weight: 700;
+        }
+
+        html {
+            background-color: #eee;
+            margin: auto;
+        }
+
+        body {
+            border: 1px solid #ccc;
+            border-top: 0px;
+            border-bottom: 0px;
+            max-width: max-content;
+            margin: auto;
+            padding: 1em 4em 1em 2em;
+            background-color: #fff;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+        }
+
         body > ul > ul {
             padding-bottom: 2em;
         }
 
-        b {
-            font-weight: 700;
+        body > ul > li {
+            text-align: center;
+            padding: 0.25em;
         }
         </style>
     </head>
     <body>
-    <h1>Menu</h1>
+    <h1>🍽️ Menu</h1>
     """
     output += "<ul>"
     for i, day in enumerate(DAYS):
