@@ -62,7 +62,33 @@ def index():
     dinner_menu = dinner.copy()
     random.shuffle(dinner_menu)
 
-    output = "<ul>"
+    output = """
+    <html>
+    <head>
+        <title>Menu</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap" rel="stylesheet">
+        <style>
+        body {
+            font-family: 'Open Sans', sans-serif;
+            font-weight: 400;
+            color: #2d3239
+        }
+
+        body > ul > ul {
+            padding-bottom: 2em;
+        }
+
+        b {
+            font-weight: 700;
+        }
+        </style>
+    </head>
+    <body>
+    <h1>Menu</h1>
+    """
+    output += "<ul>"
     for i, day in enumerate(DAYS):
         output += f"<li><b>{day}</b></li>"
         output += "<ul>"
@@ -70,5 +96,7 @@ def index():
         output += f"<li><b>Dinner:</b> {dinner_menu[i]}</li>"
         output += "</ul>"
     output += "</ul>"
+    output += "</body>"
+    output += "</html>"
 
     return output
