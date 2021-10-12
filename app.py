@@ -86,12 +86,12 @@ def index():
         html {
             background-color: #eee;
             margin: auto;
+            padding: 10px;
         }
 
         body {
             border: 1px solid #ccc;
-            border-top: 0px;
-            border-bottom: 0px;
+            block-size: fit-content;
             max-width: max-content;
             margin: auto;
             padding: 1em 2em 1em 2em;
