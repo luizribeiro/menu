@@ -1,6 +1,7 @@
 import random
 from datetime import datetime
 from typing import Sequence
+from zoneinfo import ZoneInfo
 
 from flask import Flask
 
@@ -47,6 +48,7 @@ specials = [
 ]
 
 DAYS = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
+TIMEZONE = ZoneInfo("America/Chicago")
 
 
 def get_meal(recipes: Sequence[str]) -> str:
@@ -56,7 +58,7 @@ def get_meal(recipes: Sequence[str]) -> str:
 @app.route("/")
 def index():
     SALT = "sdklfbn"
-    random.seed(datetime.now().strftime(f"%Y%U-{SALT}"))
+    random.seed(datetime.now(TIMEZONE).strftime(f"%Y%U-{SALT}"))
     lunch_menu = lunch.copy()
     random.shuffle(lunch_menu)
     dinner_menu = dinner.copy()
@@ -126,7 +128,7 @@ def index():
     <body>
     <h1>🍽️ Menu</h1>
     """
-    current_day = DAYS.index(datetime.now().strftime("%A"))
+    current_day = DAYS.index(datetime.now(TIMEZONE).strftime("%A"))
     output += "<ul>"
     for i, day in enumerate(DAYS):
         if i < current_day:
