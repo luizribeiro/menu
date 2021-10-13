@@ -149,3 +149,15 @@ def index():
     output += "</html>"
 
     return output
+
+
+@app.route("/api/today")
+def api_today():
+    lunch_menu, dinner_menu = get_menu()
+    day_of_the_week = get_day_of_the_week()
+    return {
+        "today": {
+            "lunch": lunch_menu[day_of_the_week],
+            "dinner": dinner_menu[day_of_the_week],
+        }
+    }
