@@ -2,13 +2,15 @@ import os
 from typing import Sequence
 from zoneinfo import ZoneInfo
 
+from pyre_extensions import none_throws
+
 
 def get_mailserver_host() -> str:
     return str(os.getenv("MAILSERVER_HOST"))
 
 
 def get_mailserver_port() -> int:
-    return int(os.getenv("MAILSERVER_PORT"))
+    return int(none_throws(os.getenv("MAILSERVER_PORT")))
 
 
 def get_mailserver_username() -> str:

@@ -12,6 +12,8 @@ APScheduler = "^3.8.0"
 
 [tool.poetry.dev-dependencies]
 honcho = "^1.0.1"
+black = "^21.9b0"
+pyre-check = "^0.9.6"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]

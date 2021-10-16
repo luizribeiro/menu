@@ -1,5 +1,7 @@
 # 🍽️ menu
 
+[![CI](https://github.com/luizribeiro/menu/actions/workflows/ci.yaml/badge.svg)](https://github.com/luizribeiro/menu/actions/workflows/ci.yaml)
+
 ## Development
 
 ```

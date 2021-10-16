@@ -1,6 +1,6 @@
 import random
 from datetime import datetime, timedelta
-from typing import Optional, Sequence, Tuple
+from typing import Dict, Optional, Sequence, Tuple
 from zoneinfo import ZoneInfo
 
 from flask import Flask, render_template
@@ -68,7 +68,7 @@ def get_day_of_the_week() -> int:
 
 
 @app.route("/")
-def index():
+def index() -> str:
     lunch_menu, dinner_menu = get_menu()
     current_day = get_day_of_the_week()
     content = "<ul>"
@@ -87,7 +87,7 @@ def index():
 
 
 @app.route("/next_week")
-def next_week():
+def next_week() -> str:
     date = datetime.now(config.get_timezone()) + timedelta(weeks=+1)
     lunch_menu, dinner_menu = get_menu(date)
     content = "<ul>"
@@ -103,7 +103,7 @@ def next_week():
 
 
 @app.route("/api/today")
-def api_today():
+def api_today() -> Dict[str, object]:
     lunch_menu, dinner_menu = get_menu()
     day_of_the_week = get_day_of_the_week()
     return {
