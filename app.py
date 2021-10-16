@@ -5,6 +5,9 @@ from zoneinfo import ZoneInfo
 
 from flask import Flask, render_template
 
+import config
+import constants
+
 app = Flask(__name__)
 
 
@@ -48,13 +51,10 @@ specials = [
     "Chickpea marsala",
 ]
 
-DAYS = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
-TIMEZONE = ZoneInfo("America/Chicago")
-
 
 def get_menu(date: Optional[datetime] = None) -> Tuple[Sequence[str], Sequence[str]]:
     SALT = "sdklfbn"
-    date = datetime.now(TIMEZONE) if not date else date
+    date = datetime.now(config.get_timezone()) if not date else date
     random.seed(date.strftime(f"%Y%U-{SALT}"))
     lunch_menu = lunch.copy()
     random.shuffle(lunch_menu)
@@ -64,7 +64,7 @@ def get_menu(date: Optional[datetime] = None) -> Tuple[Sequence[str], Sequence[s
 
 
 def get_day_of_the_week() -> int:
-    return DAYS.index(datetime.now(TIMEZONE).strftime("%A"))
+    return constants.DAYS.index(datetime.now(config.get_timezone()).strftime("%A"))
 
 
 @app.route("/")
@@ -72,7 +72,7 @@ def index():
     lunch_menu, dinner_menu = get_menu()
     current_day = get_day_of_the_week()
     content = "<ul>"
-    for i, day in enumerate(DAYS):
+    for i, day in enumerate(constants.DAYS):
         if i < current_day:
             continue
         klass = "today" if i == current_day else "future"
@@ -88,10 +88,10 @@ def index():
 
 @app.route("/next_week")
 def next_week():
-    date = datetime.now(TIMEZONE) + timedelta(weeks=+1)
+    date = datetime.now(config.get_timezone()) + timedelta(weeks=+1)
     lunch_menu, dinner_menu = get_menu(date)
     content = "<ul>"
-    for i, day in enumerate(DAYS):
+    for i, day in enumerate(constants.DAYS):
         content += f"<li><b>{day}</b></li>"
         content += "<ul>"
         content += f"<li><b>Lunch:</b> {lunch_menu[i]}</li>"

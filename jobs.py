@@ -3,7 +3,8 @@ from datetime import datetime, timedelta
 from apscheduler.schedulers.blocking import BlockingScheduler
 
 import config
-from app import DAYS, TIMEZONE, get_menu
+import constants
+from app import get_menu
 from utils import Email, send_email
 
 scheduler = BlockingScheduler()
@@ -11,12 +12,12 @@ scheduler = BlockingScheduler()
 
 @scheduler.cron_schedule(day_of_week="sat", hour=16)
 def email_next_week_menu() -> None:
-    date = datetime.now(TIMEZONE) + timedelta(weeks=+1)
+    date = datetime.now(config.get_timezone()) + timedelta(weeks=+1)
     lunch_menu, dinner_menu = get_menu(date)
 
     html_content = "<ul>"
     text_content = ""
-    for i, day in enumerate(DAYS):
+    for i, day in enumerate(constants.DAYS):
         text_content += f"# {day}\n"
         text_content += f"* **Lunch:** {lunch_menu[i]}\n"
         text_content += f"* **Dinner:** {dinner_menu[i]}\n\n"

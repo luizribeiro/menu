@@ -1,5 +1,6 @@
 import os
 from typing import Sequence
+from zoneinfo import ZoneInfo
 
 
 def get_mailserver_host() -> str:
@@ -21,3 +22,7 @@ def get_mailserver_password() -> str:
 def get_recipients() -> Sequence[str]:
     recipients = str(os.getenv("RECIPIENTS"))
     return recipients.split(",")
+
+
+def get_timezone() -> ZoneInfo:
+    return ZoneInfo(str(os.getenv("TIMEZONE", default="America/Chicago")))
