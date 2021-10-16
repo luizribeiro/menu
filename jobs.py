@@ -1,4 +1,4 @@
-from apscheduler.scheduler.blocking import BlockingScheduler
+from apscheduler.schedulers.blocking import BlockingScheduler
 
 scheduler = BlockingScheduler()
 
