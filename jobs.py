@@ -39,7 +39,7 @@ def _email_next_week_menu(recipient: str) -> None:
     )
 
 
-@scheduler.scheduled_job("cron", day_of_week="sat", hour=17, minute=15)
+@scheduler.scheduled_job("cron", day_of_week="fri", hour=5)
 def email_next_week_menu_to_luiz() -> None:
     _email_next_week_menu("luiz")
 
