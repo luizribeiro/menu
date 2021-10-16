@@ -215,7 +215,7 @@ marshmallow = ">=2.0.0"
 name = "mypy-extensions"
 version = "0.4.3"
 description = "Experimental type system extensions for programs checked with the mypy typechecker."
-category = "dev"
+category = "main"
 optional = false
 python-versions = "*"
 
@@ -273,7 +273,7 @@ typing-extensions = "*"
 name = "pyre-extensions"
 version = "0.0.22"
 description = "Type system extensions for use with the pyre type checker"
-category = "dev"
+category = "main"
 optional = false
 python-versions = "*"
 
@@ -344,7 +344,7 @@ python-versions = ">=3.6"
 name = "typing-extensions"
 version = "3.10.0.2"
 description = "Backported and Experimental Type Hints for Python 3.5+"
-category = "dev"
+category = "main"
 optional = false
 python-versions = "*"
 
@@ -352,7 +352,7 @@ python-versions = "*"
 name = "typing-inspect"
 version = "0.7.1"
 description = "Runtime inspection utilities for typing module."
-category = "dev"
+category = "main"
 optional = false
 python-versions = "*"
 
@@ -385,7 +385,7 @@ watchdog = ["watchdog"]
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.9"
-content-hash = "a83a721208652578d306d72a278cbdb9919082fa4b8d37580e0e1b4179d0e201"
+content-hash = "d298109fa5d4b0f3ef25169eb9a2d4609c7427f9cef9bb5ce4025eede7881ad5"
 
 [metadata.files]
 apscheduler = [
