@@ -27,4 +27,4 @@ def get_recipients() -> Sequence[str]:
 
 
 def get_timezone() -> ZoneInfo:
-    return ZoneInfo(str(os.getenv("TIMEZONE", default="America/Chicago")))
+    return ZoneInfo(str(os.getenv("TZ", default="America/Chicago")))

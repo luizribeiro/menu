@@ -10,7 +10,7 @@ from utils import Email, send_email
 scheduler = BlockingScheduler()
 
 
-@scheduler.scheduled_job("cron", day_of_week="sat", hour=16, minute=30)
+@scheduler.scheduled_job("cron", day_of_week="sat", hour=17)
 def email_next_week_menu() -> None:
     print("Sending email with next week's menu")
     date = datetime.now(config.get_timezone()) + timedelta(weeks=+1)
