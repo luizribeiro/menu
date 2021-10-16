@@ -1,6 +1,6 @@
 import random
-from datetime import datetime
-from typing import Sequence, Tuple
+from datetime import datetime, timedelta
+from typing import Optional, Sequence, Tuple
 from zoneinfo import ZoneInfo
 
 from flask import Flask, render_template
@@ -51,9 +51,10 @@ DAYS = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Satur
 TIMEZONE = ZoneInfo("America/Chicago")
 
 
-def get_menu() -> Tuple[Sequence[str], Sequence[str]]:
+def get_menu(date: Optional[datetime] = None) -> Tuple[Sequence[str], Sequence[str]]:
     SALT = "sdklfbn"
-    random.seed(datetime.now(TIMEZONE).strftime(f"%Y%U-{SALT}"))
+    date = datetime.now(TIMEZONE) if not date else date
+    random.seed(date.strftime(f"%Y%U-{SALT}"))
     lunch_menu = lunch.copy()
     random.shuffle(lunch_menu)
     dinner_menu = dinner.copy()
@@ -78,6 +79,22 @@ def index():
         content += '<ul class="{klass}">'
         content += f'<li class="{klass}"><b>Lunch:</b> {lunch_menu[i]}</li>'
         content += f'<li class="{klass}"><b>Dinner:</b> {dinner_menu[i]}</li>'
+        content += "</ul>"
+    content += "</ul>"
+
+    return render_template("index.html.jinja", content=content)
+
+
+@app.route("/next_week")
+def next_week():
+    date = datetime.now(TIMEZONE) + timedelta(weeks=+1)
+    lunch_menu, dinner_menu = get_menu(date)
+    content = "<ul>"
+    for i, day in enumerate(DAYS):
+        content += f"<li><b>{day}</b></li>"
+        content += "<ul>"
+        content += f"<li><b>Lunch:</b> {lunch_menu[i]}</li>"
+        content += f"<li><b>Dinner:</b> {dinner_menu[i]}</li>"
         content += "</ul>"
     content += "</ul>"
 
