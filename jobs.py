@@ -10,9 +10,7 @@ from utils import Email, send_email
 scheduler = BlockingScheduler()
 
 
-@scheduler.scheduled_job("cron", day_of_week="sat", hour=17)
-def email_next_week_menu() -> None:
-    print("Sending email with next week's menu")
+def _email_next_week_menu(recipient: str) -> None:
     date = datetime.now(config.get_timezone()) + timedelta(weeks=+1)
     lunch_menu, dinner_menu = get_menu(date)
 
@@ -33,13 +31,22 @@ def email_next_week_menu() -> None:
     send_email(
         Email(
             sender="Rosie <rosie@thepromisedlan.club>",
-            recipients=config.get_recipients(),
+            recipients=[r for r in config.get_recipients() if recipient in r],
             subject="Next week menu",
             body=text_content,
             html=html_content,
         )
     )
-    print("OK")
+
+
+@scheduler.scheduled_job("cron", day_of_week="sat", hour=17, minute=15)
+def email_next_week_menu_to_luiz() -> None:
+    _email_next_week_menu("luiz")
+
+
+@scheduler.scheduled_job("cron", day_of_week="mon", hour=5)
+def email_next_week_menu_to_karin() -> None:
+    _email_next_week_menu("karin")
 
 
 scheduler.start()
