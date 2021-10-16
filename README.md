@@ -1,7 +1,15 @@
 # 🍽️ menu
 
+## Development
+
 ```
-FLASK_APP=app.py FLASK_ENV=development flask run
+honcho start
+
+```
+
+## Deployment
+
+```
 dokku buildpacks:clear
 dokku buildpacks:add https://github.com/moneymeets/python-poetry-buildpack.git
 dokku buildpacks:add heroku/python

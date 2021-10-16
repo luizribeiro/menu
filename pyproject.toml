@@ -11,6 +11,7 @@ gunicorn = "^20.1.0"
 APScheduler = "^3.8.0"
 
 [tool.poetry.dev-dependencies]
+honcho = "^1.0.1"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
