@@ -9,32 +9,33 @@ app = Flask(__name__)
 
 
 lunch = [
+    "Shakshuka",
     "Farro salad",
-    "Omelet",
     "Bagel with egg",
     "Rice and beans",
-    "Gnocchi with pumpkin",
     "Ravioli",
-    "Quinoa bowls",
-    "Pita bread with baharat cauliflower",
-    "Shakshuka",
-    "Chickpea salad",
     "Mediterranean salad",
+    "Quinoa bowls",
+    "Soylent",
+    "Gnocchi with pumpkin",
+    "Chickpea salad",
+    "Omelet",
 ]
 
 dinner = [
     "Lentils with rice",
     "Tacos",
-    "Roasted sweet potatoes",
+    "Kibe",
     "Pasta al Funghi",
     "Mushroom Risotto",
     "Burgers",
     "Stuffed bell peppers",
-    "Kibe ",
+    "Pita bread with baharat cauliflower",
     "Tortellini soup",
     "Pizza",
-    "Madalena",
     "Pea soup",
+    "Madalena",
+    "Roasted sweet potatoes",
 ]
 
 specials = [
