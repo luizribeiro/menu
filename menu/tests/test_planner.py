@@ -28,12 +28,12 @@ class MealPlannerTest(TestCase):
         menu = list(zip(*get_menu(datetime.now())))
         expect(menu).to_equal(
             [
-                ("Omelet", "Pea soup"),
-                ("Rice and beans", "Stuffed bell peppers"),
-                ("Soylent", "Pasta al Funghi"),
-                ("Mediterranean salad", "Madalena"),
-                ("Shakshuka", "Tortellini soup"),
-                ("Chickpea salad", "Mushroom Risotto"),
+                ("Rice and beans", "Tacos"),
+                ("Gnocchi with pumpkin", "Pea soup"),
+                ("Omelet", "Madalena"),
+                ("Soylent", "Tortellini soup"),
                 ("Ravioli", "Lentils with rice"),
+                ("Farro salad", "Mushroom Risotto"),
+                ("Shakshuka", "Pasta al Funghi"),
             ]
         )
