@@ -2,7 +2,7 @@ import random
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
 from datetime import datetime
-from typing import Optional, Sequence, Set, Tuple
+from typing import Dict, Optional, Sequence, Set, Tuple
 
 import config
 
@@ -107,13 +107,19 @@ class CurrentMealPlanner(MealPlanner):
         Meal(name="Saturday Dinner", tags={"dinner"}, num_cooks=2),
     ]
 
+    OVERRIDES: Dict[str, str] = {
+        "Sunday Dinner": "Madalena",
+        "Monday Dinner": "Pita bread with baharat cauliflower",
+        "Tuesday Dinner": "Mushroom Risotto",
+    }
+
     RECIPES: Sequence[Recipe] = [
         Recipe(name="Shakshuka", tags={"lunch"}, num_cooks=1.5),
         Recipe(name="Farro salad", tags={"lunch"}, num_cooks=0.5),
         Recipe(name="Bagel with egg", tags={"lunch"}, num_cooks=0.5),
         Recipe(name="Rice and beans", tags={"lunch"}, num_cooks=0.5),
-        Recipe(name="Ravioli", tags={"lunch"}, num_cooks=0.5),
         Recipe(name="Mediterranean salad", tags={"lunch", "solo"}, num_cooks=0.5),
+        Recipe(name="Ravioli", tags={"lunch"}, num_cooks=0.5),
         Recipe(name="Quinoa bowls", tags={"lunch"}, num_cooks=1.5),
         Recipe(name="Soylent", tags={"lunch", "solo"}, num_cooks=0),
         Recipe(name="Gnocchi with pumpkin", tags={"lunch"}, num_cooks=1.5),
@@ -152,7 +158,12 @@ class CurrentMealPlanner(MealPlanner):
         lunch_menu = []
         dinner_menu = []
         for index, meal in enumerate(self.PLAN):
-            recipe = next(filter(lambda r: r.fits(meal), recipes))
+            if meal.name in self.OVERRIDES.keys():
+                recipe = next(
+                    filter(lambda r: r.name == self.OVERRIDES[meal.name], recipes)
+                )
+            else:
+                recipe = next(filter(lambda r: r.fits(meal), recipes))
             recipes.remove(recipe)
             (dinner_menu if index % 2 == 1 else lunch_menu).append(recipe)
 
@@ -164,6 +175,6 @@ class CurrentMealPlanner(MealPlanner):
 
 def get_menu(date: Optional[datetime] = None) -> Tuple[Sequence[str], Sequence[str]]:
     date = datetime.now(config.get_timezone()) if not date else date
-    if date < datetime(2021, 10, 24, tzinfo=config.get_timezone()):
+    if date < datetime(2021, 10, 23, tzinfo=config.get_timezone()):
         return OldMealPlanner().get_menu(date)
     return CurrentMealPlanner().get_menu(date)
