@@ -6,7 +6,6 @@
 
 ```
 honcho start
-
 ```
 
 ## Deployment
