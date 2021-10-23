@@ -9,7 +9,7 @@ from menu import get_menu
 
 
 class MealPlannerTest(TestCase):
-    @freeze_time("2021-10-23")
+    @freeze_time(datetime(2021, 10, 23, tzinfo=config.get_timezone()))
     def test_old_menu(self) -> None:
         menu = list(zip(*get_menu(datetime.now(config.get_timezone()))))
         expect(menu).to_equal(
@@ -24,17 +24,17 @@ class MealPlannerTest(TestCase):
             ]
         )
 
-    @freeze_time("2021-10-24")
+    @freeze_time(datetime(2021, 10, 24, tzinfo=config.get_timezone()))
     def test_menu(self) -> None:
         menu = list(zip(*get_menu(datetime.now(config.get_timezone()))))
         expect(menu).to_equal(
             [
-                ("Farro salad", "Madalena"),
-                ("Gnocchi with pumpkin", "Pita bread with baharat cauliflower"),
-                ("Chickpea salad", "Mushroom Risotto"),
-                ("Mediterranean salad", "Lentils with rice"),
-                ("Bagel with egg", "Kibe"),
-                ("Soylent", "Pasta al Funghi"),
+                ("Omelet", "Madalena"),
+                ("Rice and beans", "Pita bread with baharat cauliflower"),
+                ("Ravioli", "Mushroom Risotto"),
+                ("Soylent", "Pea soup"),
+                ("Mediterranean salad", "Stuffed bell peppers"),
+                ("Bagel with egg", "Pasta al Funghi"),
                 ("Shakshuka", "Tortellini soup"),
             ]
         )
