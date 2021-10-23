@@ -88,8 +88,6 @@ class Recipe:
 
 
 class CurrentMealPlanner(MealPlanner):
-    SALT = "hmm"
-
     PLAN: Sequence[Meal] = [
         Meal(name="Sunday Lunch", tags={"lunch"}, num_cooks=2),
         Meal(name="Sunday Dinner", tags={"dinner"}, num_cooks=2),
@@ -117,7 +115,7 @@ class CurrentMealPlanner(MealPlanner):
         Recipe(name="Shakshuka", tags={"lunch"}, num_cooks=1.5),
         Recipe(name="Farro salad", tags={"lunch"}, num_cooks=0.5),
         Recipe(name="Bagel with egg", tags={"lunch"}, num_cooks=0.5),
-        Recipe(name="Rice and beans", tags={"lunch"}, num_cooks=0.5),
+        Recipe(name="Rice and beans", tags={"lunch"}, num_cooks=1.5),
         Recipe(name="Mediterranean salad", tags={"lunch", "solo"}, num_cooks=0.5),
         Recipe(name="Ravioli", tags={"lunch"}, num_cooks=0.5),
         Recipe(name="Quinoa bowls", tags={"lunch"}, num_cooks=1.5),
