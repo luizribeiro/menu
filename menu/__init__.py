@@ -7,7 +7,7 @@ from typing import Optional, Sequence, Set, Tuple
 import config
 
 
-class MenuResolver(ABC):
+class MealPlanner(ABC):
     def _init_random_seed(self, date: datetime) -> None:
         SALT = "sdklfbn"
         random.seed(date.strftime(f"%Y%U-{SALT}"))
@@ -17,7 +17,7 @@ class MenuResolver(ABC):
         ...
 
 
-class OldMenuResolver(MenuResolver):
+class OldMealPlanner(MealPlanner):
     LUNCH = [
         "Shakshuka",
         "Farro salad",
@@ -84,7 +84,7 @@ class Recipe:
         return meal.tags.issubset(self.tags)
 
 
-class CurrentMenuResolver(MenuResolver):
+class CurrentMealPlanner(MealPlanner):
     PLAN: Sequence[Meal] = [
         Meal(name="Sunday Lunch", tags={"lunch"}),
         Meal(name="Sunday Dinner", tags={"dinner"}),
@@ -158,5 +158,5 @@ class CurrentMenuResolver(MenuResolver):
 def get_menu(date: Optional[datetime] = None) -> Tuple[Sequence[str], Sequence[str]]:
     date = datetime.now(config.get_timezone()) if not date else date
     if date < datetime(2021, 10, 24):
-        return OldMenuResolver().get_menu(date)
-    return CurrentMenuResolver().get_menu(date)
+        return OldMealPlanner().get_menu(date)
+    return CurrentMealPlanner().get_menu(date)

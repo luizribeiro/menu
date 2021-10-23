@@ -7,7 +7,7 @@ from pyexpect import expect
 from menu import get_menu
 
 
-class MenuResolverTest(TestCase):
+class MealPlannerTest(TestCase):
     @freeze_time("2021-10-23")
     def test_old_menu(self) -> None:
         menu = list(zip(*get_menu(datetime.now())))
