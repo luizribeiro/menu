@@ -5,7 +5,7 @@ from typing import Optional, Sequence, Tuple
 import config
 
 
-lunch = [
+LUNCH = [
     "Shakshuka",
     "Farro salad",
     "Bagel with egg",
@@ -19,7 +19,7 @@ lunch = [
     "Omelet",
 ]
 
-dinner = [
+DINNER = [
     "Lentils with rice",
     "Tacos",
     "Kibe",
@@ -35,7 +35,7 @@ dinner = [
     "Roasted sweet potatoes",
 ]
 
-specials = [
+SPECIALS = [
     "Esfiha",
     "Curry",
     "Pierogi",
@@ -46,12 +46,22 @@ specials = [
 ]
 
 
+class MenuResolver:
+    def _init_random_seed(self, date: Optional[datetime]) -> None:
+        SALT = "sdklfbn"
+        date = datetime.now(config.get_timezone()) if not date else date
+        random.seed(date.strftime(f"%Y%U-{SALT}"))
+
+    def get_menu(self, date: Optional[datetime]) -> Tuple[Sequence[str], Sequence[str]]:
+        self._init_random_seed(date)
+
+        lunch_menu = LUNCH.copy()
+        random.shuffle(lunch_menu)
+        dinner_menu = DINNER.copy()
+        random.shuffle(dinner_menu)
+
+        return lunch_menu, dinner_menu
+
+
 def get_menu(date: Optional[datetime] = None) -> Tuple[Sequence[str], Sequence[str]]:
-    SALT = "sdklfbn"
-    date = datetime.now(config.get_timezone()) if not date else date
-    random.seed(date.strftime(f"%Y%U-{SALT}"))
-    lunch_menu = lunch.copy()
-    random.shuffle(lunch_menu)
-    dinner_menu = dinner.copy()
-    random.shuffle(dinner_menu)
-    return lunch_menu, dinner_menu
+    return MenuResolver().get_menu(date)
