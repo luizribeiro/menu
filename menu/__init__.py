@@ -164,6 +164,6 @@ class CurrentMealPlanner(MealPlanner):
 
 def get_menu(date: Optional[datetime] = None) -> Tuple[Sequence[str], Sequence[str]]:
     date = datetime.now(config.get_timezone()) if not date else date
-    if date < datetime(2021, 10, 24):
+    if date < datetime(2021, 10, 24, tzinfo=config.get_timezone()):
         return OldMealPlanner().get_menu(date)
     return CurrentMealPlanner().get_menu(date)
