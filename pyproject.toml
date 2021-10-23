@@ -16,6 +16,9 @@ honcho = "^1.0.1"
 black = "^21.9b0"
 pyre-check = "^0.9.6"
 flake8 = "^4.0.1"
+green = "^3.3.0"
+freezegun = "^1.1.0"
+pyexpect = "^1.0.21"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
