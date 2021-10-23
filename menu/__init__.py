@@ -70,12 +70,38 @@ class OldMenuResolver(MenuResolver):
 
 
 @dataclass
-class Recipe:
+class Meal:
     name: str
     tags: Set[str]
 
 
+@dataclass
+class Recipe:
+    name: str
+    tags: Set[str]
+
+    def fits(self, meal: Meal) -> bool:
+        return meal.tags.issubset(self.tags)
+
+
 class CurrentMenuResolver(MenuResolver):
+    PLAN: Sequence[Meal] = [
+        Meal(name="Sunday Lunch", tags={"lunch"}),
+        Meal(name="Sunday Dinner", tags={"dinner"}),
+        Meal(name="Monday Lunch", tags={"lunch"}),
+        Meal(name="Monday Dinner", tags={"dinner"}),
+        Meal(name="Tuesday Lunch", tags={"lunch"}),
+        Meal(name="Tuesday Dinner", tags={"dinner"}),
+        Meal(name="Wednesday Lunch", tags={"lunch"}),
+        Meal(name="Wednesday Dinner", tags={"dinner"}),
+        Meal(name="Thursday Lunch", tags={"lunch"}),
+        Meal(name="Thursday Dinner", tags={"dinner"}),
+        Meal(name="Friday Lunch", tags={"lunch"}),
+        Meal(name="Friday Dinner", tags={"dinner"}),
+        Meal(name="Saturday Lunch", tags={"lunch"}),
+        Meal(name="Saturday Dinner", tags={"dinner"}),
+    ]
+
     RECIPES: Sequence[Recipe] = [
         Recipe(name="Shakshuka", tags={"lunch"}),
         Recipe(name="Farro salad", tags={"lunch"}),
@@ -113,10 +139,15 @@ class CurrentMenuResolver(MenuResolver):
     def get_menu(self, date: datetime) -> Tuple[Sequence[str], Sequence[str]]:
         self._init_random_seed(date)
 
-        lunch_menu = list(filter(lambda r: "lunch" in r.tags, self.RECIPES)).copy()
-        random.shuffle(lunch_menu)
-        dinner_menu = list(filter(lambda r: "dinner" in r.tags, self.RECIPES)).copy()
-        random.shuffle(dinner_menu)
+        recipes = list(self.RECIPES).copy()
+        random.shuffle(recipes)
+
+        lunch_menu = []
+        dinner_menu = []
+        for index, meal in enumerate(self.PLAN):
+            recipe = next(filter(lambda r: r.fits(meal), recipes))
+            recipes.remove(recipe)
+            (dinner_menu if index % 2 == 1 else lunch_menu).append(recipe)
 
         return (
             list(map(lambda r: r.name, lunch_menu))[:7],

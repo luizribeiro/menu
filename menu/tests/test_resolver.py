@@ -28,12 +28,12 @@ class MenuResolverTest(TestCase):
         menu = list(zip(*get_menu(datetime.now())))
         expect(menu).to_equal(
             [
-                ("Omelet", "Madalena"),
-                ("Gnocchi with pumpkin", "Pita bread with baharat cauliflower"),
-                ("Soylent", "Pizza"),
-                ("Bagel with egg", "Kibe"),
-                ("Mediterranean salad", "Tortellini soup"),
-                ("Ravioli", "Tacos"),
-                ("Chickpea salad", "Lentils with rice"),
+                ("Omelet", "Pea soup"),
+                ("Rice and beans", "Stuffed bell peppers"),
+                ("Soylent", "Pasta al Funghi"),
+                ("Mediterranean salad", "Madalena"),
+                ("Shakshuka", "Tortellini soup"),
+                ("Chickpea salad", "Mushroom Risotto"),
+                ("Ravioli", "Lentils with rice"),
             ]
         )
