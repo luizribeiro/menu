@@ -24,6 +24,7 @@ class Meal:
     name: str
     tags: Set[str]
     num_cooks: float
+    allow_repeat: bool = False
 
 
 @dataclass
@@ -46,11 +47,26 @@ class CurrentMealPlanner(MealPlanner):
         Meal(name="Monday Dinner", tags={"dinner"}, num_cooks=2),
         Meal(name="Tuesday Lunch", tags={"lunch"}, num_cooks=1.5),
         Meal(name="Tuesday Dinner", tags={"dinner"}, num_cooks=2),
-        Meal(name="Wednesday Lunch", tags={"lunch", "solo"}, num_cooks=0.5),
+        Meal(
+            name="Wednesday Lunch",
+            tags={"lunch", "solo"},
+            num_cooks=0.5,
+            allow_repeat=True,
+        ),
         Meal(name="Wednesday Dinner", tags={"dinner"}, num_cooks=2),
-        Meal(name="Thursday Lunch", tags={"lunch", "solo"}, num_cooks=0.5),
+        Meal(
+            name="Thursday Lunch",
+            tags={"lunch", "solo"},
+            num_cooks=0.5,
+            allow_repeat=True,
+        ),
         Meal(name="Thursday Dinner", tags={"dinner"}, num_cooks=2),
-        Meal(name="Friday Lunch", tags={"lunch", "solo"}, num_cooks=0.5),
+        Meal(
+            name="Friday Lunch",
+            tags={"lunch", "solo"},
+            num_cooks=0.5,
+            allow_repeat=True,
+        ),
         Meal(name="Friday Dinner", tags={"dinner"}, num_cooks=2),
         Meal(name="Saturday Lunch", tags={"lunch"}, num_cooks=2),
         Meal(name="Saturday Dinner", tags={"dinner"}, num_cooks=2),
@@ -92,11 +108,25 @@ class CurrentMealPlanner(MealPlanner):
         Recipe(name="Guinness Stew", tags={"special"}, num_cooks=2),
         Recipe(name="Lentil shepherd pie", tags={"special"}, num_cooks=2),
         Recipe(name="Chickpea marsala", tags={"special"}, num_cooks=2),
+        Recipe(name="Bread + cheese + olives", tags={"dinner"}, num_cooks=0.5),
+        Recipe(name="Winter vegetable bowls", tags={"dinner"}, num_cooks=1.5),
+        Recipe(name="Pasta primavera", tags={"lunch", "dinner"}, num_cooks=1.5),
+        Recipe(name="Lentil dahl", tags={"dinner"}, num_cooks=1.5),
+        Recipe(name="Torta salgada", tags={"dinner"}, num_cooks=1.5),
+        Recipe(name="Quiche", tags={"special"}, num_cooks=1.5),
+        Recipe(name="Roasted veggies + tenderloin", tags={"dinner"}, num_cooks=1.5),
+        Recipe(name="Savory pancakes", tags={"lunch"}, num_cooks=1.5),
     ]
 
-    def get_menu(self, year: int, week: int) -> Tuple[Sequence[str], Sequence[str]]:
-        self._init_random_seed(year, week)
+    def get_last_week_recipes(self, year: int, week: int) -> Sequence[str]:
+        # FIXME: fix what happens over new years
+        lunch, dinner = _get_menu_impl(year, week - 1)
+        return lunch + dinner
 
+    def get_menu(self, year: int, week: int) -> Tuple[Sequence[str], Sequence[str]]:
+        last_week_recipes = self.get_last_week_recipes(year, week)
+
+        self._init_random_seed(year, week)
         recipes = list(self.RECIPES).copy()
         random.shuffle(recipes)
 
@@ -108,7 +138,13 @@ class CurrentMealPlanner(MealPlanner):
                     filter(lambda r: r.name == self.OVERRIDES[meal.name], recipes)
                 )
             else:
-                recipe = next(filter(lambda r: r.fits(meal), recipes))
+                recipe = next(
+                    filter(
+                        lambda r: r.fits(meal)
+                        and (meal.allow_repeat or r.name not in last_week_recipes),
+                        recipes,
+                    )
+                )
             recipes.remove(recipe)
             (dinner_menu if index % 2 == 1 else lunch_menu).append(recipe)
 
@@ -118,20 +154,34 @@ class CurrentMealPlanner(MealPlanner):
         )
 
 
-class OldMealPlanner(CurrentMealPlanner):
-    SALT = "sdklfbn"
-
-    OVERRIDES: Dict[str, str] = {
-        "Sunday Dinner": "Madalena",
-        "Monday Dinner": "Pita bread with baharat cauliflower",
-        "Tuesday Dinner": "Mushroom Risotto",
-    }
+class VeryFirstMenuMealPlanner(MealPlanner):
+    def get_menu(self, year: int, week: int) -> Tuple[Sequence[str], Sequence[str]]:
+        return (
+            [
+                "Omelet",
+                "Rice and beans",
+                "Ravioli",
+                "Soylent",
+                "Mediterranean salad",
+                "Bagel with egg",
+                "Shakshuka",
+            ],
+            [
+                "Madalena",
+                "Pita bread with baharat cauliflower",
+                "Mushroom Risotto",
+                "Pea soup",
+                "Stuffed bell peppers",
+                "Pasta al Funghi",
+                "Tortellini soup",
+            ],
+        )
 
 
 @cache.memoize()
 def _get_menu_impl(year: int, week: int) -> Tuple[Sequence[str], Sequence[str]]:
     if year < 2021 or week < 44:
-        return OldMealPlanner().get_menu(year, week)
+        return VeryFirstMenuMealPlanner().get_menu(year, week)
     return CurrentMealPlanner().get_menu(year, week)
 
 
