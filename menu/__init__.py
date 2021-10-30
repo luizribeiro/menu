@@ -15,7 +15,9 @@ class MealPlanner(ABC):
         random.seed(f"{year}{week}-{self.SALT}")
 
     @abstractmethod
-    def get_menu(self, year: int, week: int) -> Tuple[Sequence[str], Sequence[str]]:
+    def get_menu(
+        self, year: int, week: int
+    ) -> Tuple[Sequence[str], Sequence[str]]:
         ...
 
 
@@ -34,7 +36,9 @@ class Recipe:
     num_cooks: float
 
     def fits(self, meal: Meal) -> bool:
-        return self.tags.issubset(meal.tags) and meal.num_cooks >= self.num_cooks
+        return (
+            self.tags.issubset(meal.tags) and meal.num_cooks >= self.num_cooks
+        )
 
 
 class CurrentMealPlanner(MealPlanner):
@@ -79,7 +83,9 @@ class CurrentMealPlanner(MealPlanner):
         Recipe(name="Farro salad", tags={"lunch"}, num_cooks=0.5),
         Recipe(name="Bagel with egg", tags={"lunch"}, num_cooks=0.5),
         Recipe(name="Rice and beans", tags={"lunch"}, num_cooks=1.5),
-        Recipe(name="Mediterranean salad", tags={"lunch", "solo"}, num_cooks=0.5),
+        Recipe(
+            name="Mediterranean salad", tags={"lunch", "solo"}, num_cooks=0.5
+        ),
         Recipe(name="Ravioli", tags={"lunch"}, num_cooks=0.5),
         Recipe(name="Quinoa bowls", tags={"lunch"}, num_cooks=1.5),
         Recipe(name="Soylent", tags={"lunch", "solo"}, num_cooks=0),
@@ -91,10 +97,14 @@ class CurrentMealPlanner(MealPlanner):
         Recipe(name="Kibe", tags={"dinner"}, num_cooks=1.5),
         Recipe(name="Pasta al Funghi", tags={"dinner"}, num_cooks=1.5),
         Recipe(name="Mushroom Risotto", tags={"dinner"}, num_cooks=0.5),
-        Recipe(name="Burgers", tags={"lunch", "dinner", "solo"}, num_cooks=0.5),
+        Recipe(
+            name="Burgers", tags={"lunch", "dinner", "solo"}, num_cooks=0.5
+        ),
         Recipe(name="Stuffed bell peppers", tags={"dinner"}, num_cooks=1.5),
         Recipe(
-            name="Pita bread with baharat cauliflower", tags={"dinner"}, num_cooks=1.5
+            name="Pita bread with baharat cauliflower",
+            tags={"dinner"},
+            num_cooks=1.5,
         ),
         Recipe(name="Tortellini soup", tags={"dinner"}, num_cooks=0.5),
         Recipe(name="Pizza", tags={"dinner"}, num_cooks=1.5),
@@ -110,11 +120,15 @@ class CurrentMealPlanner(MealPlanner):
         Recipe(name="Chickpea marsala", tags={"special"}, num_cooks=2),
         Recipe(name="Bread + cheese + olives", tags={"dinner"}, num_cooks=0.5),
         Recipe(name="Winter vegetable bowls", tags={"dinner"}, num_cooks=1.5),
-        Recipe(name="Pasta primavera", tags={"lunch", "dinner"}, num_cooks=1.5),
+        Recipe(
+            name="Pasta primavera", tags={"lunch", "dinner"}, num_cooks=1.5
+        ),
         Recipe(name="Lentil dahl", tags={"dinner"}, num_cooks=1.5),
         Recipe(name="Torta salgada", tags={"dinner"}, num_cooks=1.5),
         Recipe(name="Quiche", tags={"special"}, num_cooks=1.5),
-        Recipe(name="Roasted veggies + tenderloin", tags={"dinner"}, num_cooks=1.5),
+        Recipe(
+            name="Roasted veggies + tenderloin", tags={"dinner"}, num_cooks=1.5
+        ),
         Recipe(name="Savory pancakes", tags={"lunch"}, num_cooks=1.5),
     ]
 
@@ -123,7 +137,9 @@ class CurrentMealPlanner(MealPlanner):
         lunch, dinner = _get_menu_impl(year, week - 1)
         return lunch + dinner
 
-    def get_menu(self, year: int, week: int) -> Tuple[Sequence[str], Sequence[str]]:
+    def get_menu(
+        self, year: int, week: int
+    ) -> Tuple[Sequence[str], Sequence[str]]:
         last_week_recipes = self.get_last_week_recipes(year, week)
 
         self._init_random_seed(year, week)
@@ -135,13 +151,18 @@ class CurrentMealPlanner(MealPlanner):
         for index, meal in enumerate(self.PLAN):
             if meal.name in self.OVERRIDES.keys():
                 recipe = next(
-                    filter(lambda r: r.name == self.OVERRIDES[meal.name], recipes)
+                    filter(
+                        lambda r: r.name == self.OVERRIDES[meal.name], recipes
+                    )
                 )
             else:
                 recipe = next(
                     filter(
                         lambda r: r.fits(meal)
-                        and (meal.allow_repeat or r.name not in last_week_recipes),
+                        and (
+                            meal.allow_repeat
+                            or r.name not in last_week_recipes
+                        ),
                         recipes,
                     )
                 )
@@ -155,7 +176,9 @@ class CurrentMealPlanner(MealPlanner):
 
 
 class VeryFirstMenuMealPlanner(MealPlanner):
-    def get_menu(self, year: int, week: int) -> Tuple[Sequence[str], Sequence[str]]:
+    def get_menu(
+        self, year: int, week: int
+    ) -> Tuple[Sequence[str], Sequence[str]]:
         return (
             [
                 "Omelet",
@@ -179,13 +202,17 @@ class VeryFirstMenuMealPlanner(MealPlanner):
 
 
 @cache.memoize()
-def _get_menu_impl(year: int, week: int) -> Tuple[Sequence[str], Sequence[str]]:
+def _get_menu_impl(
+    year: int, week: int
+) -> Tuple[Sequence[str], Sequence[str]]:
     if year < 2021 or week < 44:
         return VeryFirstMenuMealPlanner().get_menu(year, week)
     return CurrentMealPlanner().get_menu(year, week)
 
 
-def get_menu(date: Optional[datetime] = None) -> Tuple[Sequence[str], Sequence[str]]:
+def get_menu(
+    date: Optional[datetime] = None,
+) -> Tuple[Sequence[str], Sequence[str]]:
     date = datetime.now(config.get_timezone()) if not date else date
     year = int(date.strftime("%Y"))
     week = int(date.strftime("%U"))

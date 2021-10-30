@@ -14,7 +14,9 @@ cache.init_app(app)
 
 
 def get_day_of_the_week() -> int:
-    return constants.DAYS.index(datetime.now(config.get_timezone()).strftime("%A"))
+    return constants.DAYS.index(
+        datetime.now(config.get_timezone()).strftime("%A")
+    )
 
 
 @app.route("/")
