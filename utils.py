@@ -12,7 +12,7 @@ import config
 cache: Cache = Cache(
     config={
         "CACHE_TYPE": "filesystem",
-        "CACHE_DIR": "/tmp/menu",
+        "CACHE_DIR": "./cache",
     }
 )
 
