@@ -5,69 +5,18 @@ from datetime import datetime
 from typing import Dict, Optional, Sequence, Set, Tuple
 
 import config
+from utils import cache
 
 
 class MealPlanner(ABC):
     SALT = "sdklfbn"
 
-    def _init_random_seed(self, date: datetime) -> None:
-        random.seed(date.strftime(f"%Y%U-{self.SALT}"))
+    def _init_random_seed(self, year: int, week: int) -> None:
+        random.seed(f"{year}{week}-{self.SALT}")
 
     @abstractmethod
-    def get_menu(self, date: datetime) -> Tuple[Sequence[str], Sequence[str]]:
+    def get_menu(self, year: int, week: int) -> Tuple[Sequence[str], Sequence[str]]:
         ...
-
-
-class OldMealPlanner(MealPlanner):
-    LUNCH = [
-        "Shakshuka",
-        "Farro salad",
-        "Bagel with egg",
-        "Rice and beans",
-        "Ravioli",
-        "Mediterranean salad",
-        "Quinoa bowls",
-        "Soylent",
-        "Gnocchi with pumpkin",
-        "Chickpea salad",
-        "Omelet",
-    ]
-
-    DINNER = [
-        "Lentils with rice",
-        "Tacos",
-        "Kibe",
-        "Pasta al Funghi",
-        "Mushroom Risotto",
-        "Burgers",
-        "Stuffed bell peppers",
-        "Pita bread with baharat cauliflower",
-        "Tortellini soup",
-        "Pizza",
-        "Pea soup",
-        "Madalena",
-        "Roasted sweet potatoes",
-    ]
-
-    SPECIALS = [
-        "Esfiha",
-        "Curry",
-        "Pierogi",
-        "Lasagna",
-        "Guinness Stew",
-        "Lentil shepherd pie",
-        "Chickpea marsala",
-    ]
-
-    def get_menu(self, date: datetime) -> Tuple[Sequence[str], Sequence[str]]:
-        self._init_random_seed(date)
-
-        lunch_menu = self.LUNCH.copy()
-        random.shuffle(lunch_menu)
-        dinner_menu = self.DINNER.copy()
-        random.shuffle(dinner_menu)
-
-        return lunch_menu[:7], dinner_menu[:7]
 
 
 @dataclass
@@ -88,6 +37,8 @@ class Recipe:
 
 
 class CurrentMealPlanner(MealPlanner):
+    SALT = "bsdfjbhvbchbc"
+
     PLAN: Sequence[Meal] = [
         Meal(name="Sunday Lunch", tags={"lunch"}, num_cooks=2),
         Meal(name="Sunday Dinner", tags={"dinner"}, num_cooks=2),
@@ -105,11 +56,7 @@ class CurrentMealPlanner(MealPlanner):
         Meal(name="Saturday Dinner", tags={"dinner"}, num_cooks=2),
     ]
 
-    OVERRIDES: Dict[str, str] = {
-        "Sunday Dinner": "Madalena",
-        "Monday Dinner": "Pita bread with baharat cauliflower",
-        "Tuesday Dinner": "Mushroom Risotto",
-    }
+    OVERRIDES: Dict[str, str] = {}
 
     RECIPES: Sequence[Recipe] = [
         Recipe(name="Shakshuka", tags={"lunch"}, num_cooks=1.5),
@@ -147,8 +94,8 @@ class CurrentMealPlanner(MealPlanner):
         Recipe(name="Chickpea marsala", tags={"special"}, num_cooks=2),
     ]
 
-    def get_menu(self, date: datetime) -> Tuple[Sequence[str], Sequence[str]]:
-        self._init_random_seed(date)
+    def get_menu(self, year: int, week: int) -> Tuple[Sequence[str], Sequence[str]]:
+        self._init_random_seed(year, week)
 
         recipes = list(self.RECIPES).copy()
         random.shuffle(recipes)
@@ -171,8 +118,25 @@ class CurrentMealPlanner(MealPlanner):
         )
 
 
+class OldMealPlanner(CurrentMealPlanner):
+    SALT = "sdklfbn"
+
+    OVERRIDES: Dict[str, str] = {
+        "Sunday Dinner": "Madalena",
+        "Monday Dinner": "Pita bread with baharat cauliflower",
+        "Tuesday Dinner": "Mushroom Risotto",
+    }
+
+
+@cache.memoize()
+def _get_menu_impl(year: int, week: int) -> Tuple[Sequence[str], Sequence[str]]:
+    if year < 2021 or week < 44:
+        return OldMealPlanner().get_menu(year, week)
+    return CurrentMealPlanner().get_menu(year, week)
+
+
 def get_menu(date: Optional[datetime] = None) -> Tuple[Sequence[str], Sequence[str]]:
     date = datetime.now(config.get_timezone()) if not date else date
-    if date < datetime(2021, 10, 24, tzinfo=config.get_timezone()):
-        return OldMealPlanner().get_menu(date)
-    return CurrentMealPlanner().get_menu(date)
+    year = int(date.strftime("%Y"))
+    week = int(date.strftime("%U"))
+    return _get_menu_impl(year, week)

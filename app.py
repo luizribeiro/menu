@@ -6,8 +6,11 @@ from flask import Flask, render_template
 import config
 import constants
 from menu import get_menu
+from utils import cache
+
 
 app = Flask(__name__)
+cache.init_app(app)
 
 
 def get_day_of_the_week() -> int:

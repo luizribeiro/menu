@@ -4,7 +4,17 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from typing import Optional, Sequence
 
+from flask_caching import Cache
+
 import config
+
+
+cache: Cache = Cache(
+    config={
+        "CACHE_TYPE": "filesystem",
+        "CACHE_DIR": "/tmp/menu",
+    }
+)
 
 
 @dataclass
