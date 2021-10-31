@@ -26,3 +26,18 @@ def get_all_recipes() -> Sequence[Recipe]:
         )
         for name, recipe in cooklang_recipes
     ]
+
+
+def get_recipe(name: str) -> CookLangRecipe:
+    recipe_dir = Path("./recipes/")
+    file = Path(f"./recipes/{name}.cook")
+    if not file.is_relative_to(recipe_dir):
+        raise Exception("Invalid recipe")
+    try:
+        fd = open(file, "r")
+        raw_recipe = fd.read()
+        return CookLangRecipe.parse(raw_recipe)
+    except BaseException:
+        raise Exception("Invalid recipe")
+    finally:
+        fd.close()

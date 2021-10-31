@@ -3,7 +3,6 @@ import colorsys
 import random
 from dataclasses import asdict
 from datetime import datetime, timedelta
-from pathlib import Path
 from typing import Dict, Sequence
 from urllib.parse import quote as urlencode
 
@@ -12,8 +11,9 @@ from werkzeug.wrappers import Response
 
 import config
 import constants
-from cooklang import Ingredient, Recipe
+from cooklang import Ingredient
 from menu import get_menu
+from menu.recipes import get_recipe
 from utils import cache
 
 
@@ -124,16 +124,8 @@ def colorize_recipe_step(
 
 @app.route("/recipe/<string:name>/")
 def recipe(name: str) -> str:
-    recipe_dir = Path("./recipes/")
-    file = Path(f"./recipes/{name}.cook")
-    if not file.is_relative_to(recipe_dir):
-        abort(500)
     try:
-        fd = open(file, "r")
-        raw_recipe = fd.read()
-        recipe = Recipe.parse(raw_recipe)
-        fd.close()
-
+        recipe = get_recipe(name)
         ingredients = [ColorizedIngredient(i) for i in recipe.ingredients]
         return render_template(
             "recipe.html.jinja",
@@ -144,5 +136,5 @@ def recipe(name: str) -> str:
                 ingredients, step
             ),
         )
-    except FileNotFoundError:
+    except BaseException:
         abort(404)
