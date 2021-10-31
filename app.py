@@ -3,7 +3,8 @@ from pathlib import Path
 from typing import Dict
 from urllib.parse import quote as urlencode
 
-from flask import Flask, abort, render_template
+from flask import Flask, abort, redirect, render_template
+from werkzeug.wrappers import Response
 
 import config
 import constants
@@ -57,8 +58,7 @@ def next_week() -> str:
     return render_template("index.html.jinja", content=content)
 
 
-@app.route("/api/today")
-def api_today() -> Dict[str, object]:
+def _get_cook_url() -> str:
     lunch_menu, dinner_menu = get_menu()
     day_of_the_week = get_day_of_the_week()
     recipe = urlencode(
@@ -66,13 +66,25 @@ def api_today() -> Dict[str, object]:
         if datetime.now().hour <= 15
         else dinner_menu[day_of_the_week]
     )
+    return f"https://menu.thepromisedlan.club/recipes/{recipe}/"
+
+
+@app.route("/api/today")
+def api_today() -> Dict[str, object]:
+    lunch_menu, dinner_menu = get_menu()
+    day_of_the_week = get_day_of_the_week()
     return {
         "today": {
             "lunch": lunch_menu[day_of_the_week],
             "dinner": dinner_menu[day_of_the_week],
-            "url": f"https://menu.thepromisedlan.club/recipes/{recipe}/",
+            "url": _get_cook_url(),
         }
     }
+
+
+@app.route("/cook")
+def cook() -> Response:
+    return redirect(_get_cook_url(), code=302)
 
 
 @app.route("/recipe/<string:name>/")
