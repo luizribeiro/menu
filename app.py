@@ -66,7 +66,7 @@ def _get_cook_url() -> str:
         if datetime.now().hour <= 15
         else dinner_menu[day_of_the_week]
     )
-    return f"https://menu.thepromisedlan.club/recipes/{recipe}/"
+    return f"https://menu.thepromisedlan.club/recipe/{recipe}/"
 
 
 @app.route("/api/today")
