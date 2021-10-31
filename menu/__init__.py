@@ -1,10 +1,11 @@
 import random
 from abc import ABC, abstractmethod
-from dataclasses import dataclass
 from datetime import datetime
-from typing import Dict, Optional, Sequence, Set, Tuple
+from typing import Dict, Optional, Sequence, Tuple
 
 import config
+from menu.models import Meal
+from menu.recipes import get_all_recipes
 from utils import cache
 
 
@@ -19,26 +20,6 @@ class MealPlanner(ABC):
         self, year: int, week: int
     ) -> Tuple[Sequence[str], Sequence[str]]:
         ...
-
-
-@dataclass
-class Meal:
-    name: str
-    tags: Set[str]
-    num_cooks: float
-    allow_repeat: bool = False
-
-
-@dataclass
-class Recipe:
-    name: str
-    tags: Set[str]
-    num_cooks: float
-
-    def fits(self, meal: Meal) -> bool:
-        return (
-            self.tags.issubset(meal.tags) and meal.num_cooks >= self.num_cooks
-        )
 
 
 class CurrentMealPlanner(MealPlanner):
@@ -78,60 +59,6 @@ class CurrentMealPlanner(MealPlanner):
 
     OVERRIDES: Dict[str, str] = {}
 
-    RECIPES: Sequence[Recipe] = [
-        Recipe(name="Shakshuka", tags={"lunch"}, num_cooks=1.5),
-        Recipe(name="Farro salad", tags={"lunch"}, num_cooks=0.5),
-        Recipe(name="Bagel with egg", tags={"lunch"}, num_cooks=0.5),
-        Recipe(name="Rice and beans", tags={"lunch"}, num_cooks=1.5),
-        Recipe(
-            name="Mediterranean salad", tags={"lunch", "solo"}, num_cooks=0.5
-        ),
-        Recipe(name="Ravioli", tags={"lunch"}, num_cooks=0.5),
-        Recipe(name="Quinoa bowls", tags={"lunch"}, num_cooks=1.5),
-        Recipe(name="Soylent", tags={"lunch", "solo"}, num_cooks=0),
-        Recipe(name="Gnocchi with pumpkin", tags={"lunch"}, num_cooks=1.5),
-        Recipe(name="Chickpea salad", tags={"lunch"}, num_cooks=1.5),
-        Recipe(name="Omelet", tags={"lunch"}, num_cooks=1.5),
-        Recipe(name="Lentils with rice", tags={"dinner"}, num_cooks=1.5),
-        Recipe(name="Tacos", tags={"dinner"}, num_cooks=1.5),
-        Recipe(name="Kibe", tags={"dinner"}, num_cooks=1.5),
-        Recipe(name="Pasta al Funghi", tags={"dinner"}, num_cooks=1.5),
-        Recipe(name="Mushroom Risotto", tags={"dinner"}, num_cooks=0.5),
-        Recipe(
-            name="Burgers", tags={"lunch", "dinner", "solo"}, num_cooks=0.5
-        ),
-        Recipe(name="Stuffed bell peppers", tags={"dinner"}, num_cooks=1.5),
-        Recipe(
-            name="Pita bread with baharat cauliflower",
-            tags={"dinner"},
-            num_cooks=1.5,
-        ),
-        Recipe(name="Tortellini soup", tags={"dinner"}, num_cooks=0.5),
-        Recipe(name="Pizza", tags={"dinner"}, num_cooks=1.5),
-        Recipe(name="Pea soup", tags={"dinner"}, num_cooks=1.5),
-        Recipe(name="Madalena", tags={"dinner"}, num_cooks=1.5),
-        Recipe(name="Roasted sweet potatoes", tags={"dinner"}, num_cooks=1.5),
-        Recipe(name="Esfiha", tags={"special"}, num_cooks=2),
-        Recipe(name="Curry", tags={"special"}, num_cooks=0.5),
-        Recipe(name="Pierogi", tags={"special"}, num_cooks=1.5),
-        Recipe(name="Lasagna", tags={"special"}, num_cooks=1.5),
-        Recipe(name="Guinness Stew", tags={"special"}, num_cooks=2),
-        Recipe(name="Lentil shepherd pie", tags={"special"}, num_cooks=2),
-        Recipe(name="Chickpea marsala", tags={"special"}, num_cooks=2),
-        Recipe(name="Bread + cheese + olives", tags={"dinner"}, num_cooks=0.5),
-        Recipe(name="Winter vegetable bowls", tags={"dinner"}, num_cooks=1.5),
-        Recipe(
-            name="Pasta primavera", tags={"lunch", "dinner"}, num_cooks=1.5
-        ),
-        Recipe(name="Lentil dahl", tags={"dinner"}, num_cooks=1.5),
-        Recipe(name="Torta salgada", tags={"dinner"}, num_cooks=1.5),
-        Recipe(name="Quiche", tags={"special"}, num_cooks=1.5),
-        Recipe(
-            name="Roasted veggies + tenderloin", tags={"dinner"}, num_cooks=1.5
-        ),
-        Recipe(name="Savory pancakes", tags={"lunch"}, num_cooks=1.5),
-    ]
-
     def get_last_week_recipes(self, year: int, week: int) -> Sequence[str]:
         # FIXME: fix what happens over new years
         lunch, dinner = _get_menu_impl(year, week - 1)
@@ -143,7 +70,7 @@ class CurrentMealPlanner(MealPlanner):
         last_week_recipes = self.get_last_week_recipes(year, week)
 
         self._init_random_seed(year, week)
-        recipes = list(self.RECIPES).copy()
+        recipes = list(get_all_recipes()).copy()
         random.shuffle(recipes)
 
         lunch_menu = []
