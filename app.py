@@ -32,8 +32,8 @@ def index() -> str:
         klass = "today" if i == current_day else "future"
         content += f'<li class="{klass}"><b>{day}</b></li>'
         content += '<ul class="{klass}">'
-        content += f'<li class="{klass}"><b>Lunch:</b> {lunch_menu[i]}</li>'
-        content += f'<li class="{klass}"><b>Dinner:</b> {dinner_menu[i]}</li>'
+        content += f'<li class="{klass}"><b>Lunch:</b> <a href="/recipe/{lunch_menu[i]}">{lunch_menu[i]}</a></li>'
+        content += f'<li class="{klass}"><b>Dinner:</b> <a href="/recipe/{dinner_menu[i]}">{dinner_menu[i]}</a></li>'
         content += "</ul>"
     content += "</ul>"
 
@@ -48,8 +48,8 @@ def next_week() -> str:
     for i, day in enumerate(constants.DAYS):
         content += f"<li><b>{day}</b></li>"
         content += "<ul>"
-        content += f"<li><b>Lunch:</b> {lunch_menu[i]}</li>"
-        content += f"<li><b>Dinner:</b> {dinner_menu[i]}</li>"
+        content += f'<li><b>Lunch:</b> <a href="/recipe/{lunch_menu[i]}/">{lunch_menu[i]}</a></li>'
+        content += f'<li><b>Dinner:</b> <a href="/recipe/{dinner_menu[i]}/">{dinner_menu[i]}</a></li>'
         content += "</ul>"
     content += "</ul>"
 
