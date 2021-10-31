@@ -32,8 +32,8 @@ def index() -> str:
         klass = "today" if i == current_day else "future"
         content += f'<li class="{klass}"><b>{day}</b></li>'
         content += '<ul class="{klass}">'
-        content += f'<li class="{klass}"><b>Lunch:</b> <a href="/recipe/{lunch_menu[i]}">{lunch_menu[i]}</a></li>'
-        content += f'<li class="{klass}"><b>Dinner:</b> <a href="/recipe/{dinner_menu[i]}">{dinner_menu[i]}</a></li>'
+        content += f'<li class="{klass}"><b>Lunch:</b> <a href="/recipe/{lunch_menu[i]}">{lunch_menu[i]}</a></li>'  # noqa: E501
+        content += f'<li class="{klass}"><b>Dinner:</b> <a href="/recipe/{dinner_menu[i]}">{dinner_menu[i]}</a></li>'  # noqa: E501
         content += "</ul>"
     content += "</ul>"
 
@@ -48,8 +48,8 @@ def next_week() -> str:
     for i, day in enumerate(constants.DAYS):
         content += f"<li><b>{day}</b></li>"
         content += "<ul>"
-        content += f'<li><b>Lunch:</b> <a href="/recipe/{lunch_menu[i]}/">{lunch_menu[i]}</a></li>'
-        content += f'<li><b>Dinner:</b> <a href="/recipe/{dinner_menu[i]}/">{dinner_menu[i]}</a></li>'
+        content += f'<li><b>Lunch:</b> <a href="/recipe/{lunch_menu[i]}/">{lunch_menu[i]}</a></li>'  # noqa: E501
+        content += f'<li><b>Dinner:</b> <a href="/recipe/{dinner_menu[i]}/">{dinner_menu[i]}</a></li>'  # noqa: E501
         content += "</ul>"
     content += "</ul>"
 
@@ -80,10 +80,6 @@ def recipe(name: str) -> str:
         recipe = Recipe.parse(raw_recipe)
         fd.close()
 
-        content = f"""
-Ingredients: {recipe.ingredients}
-Steps: {recipe.steps}
-"""
         return render_template(
             "recipe.html.jinja",
             name=name,
