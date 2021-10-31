@@ -91,7 +91,7 @@ develop = false
 type = "git"
 url = "https://github.com/luizribeiro/py-cooklang.git"
 reference = "main"
-resolved_reference = "b855c421e835cd47ed2fbe3d2615740d92c44b26"
+resolved_reference = "3e437c74fec6b850f7337485ac5c0828a34266c6"
 
 [[package]]
 name = "coverage"
