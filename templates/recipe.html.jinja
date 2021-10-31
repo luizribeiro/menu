@@ -7,7 +7,9 @@
   <ul>
     {% for ingredient in ingredients %}
     <li>
-      {{ingredient.name|capitalize}}
+      <font color="{{ingredient.get_color()}}">
+        {{ingredient.name|capitalize}}
+      </font>
       {% if ingredient.quantity %}
         ({{ingredient.quantity.amount}} {{ingredient.quantity.unit}})
       {% endif %}

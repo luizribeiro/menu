@@ -1,3 +1,6 @@
+import colorsys
+import random
+from dataclasses import asdict
 from datetime import datetime, timedelta
 from pathlib import Path
 from typing import Dict
@@ -8,7 +11,7 @@ from werkzeug.wrappers import Response
 
 import config
 import constants
-from cooklang import Recipe
+from cooklang import Ingredient, Recipe
 from menu import get_menu
 from utils import cache
 
@@ -87,6 +90,16 @@ def cook() -> Response:
     return redirect(_get_cook_url(), code=302)
 
 
+class ColorizedIngredient(Ingredient):
+    def __init__(self, ingredient: Ingredient) -> None:
+        super().__init__(**asdict(ingredient))
+
+    def get_color(self) -> str:
+        random.seed(self.name)
+        rgb = colorsys.hls_to_rgb(random.random(), 0.3, 1.0)
+        return "#" + "".join(f"{int(c * 255):02X}" for c in rgb)
+
+
 @app.route("/recipe/<string:name>/")
 def recipe(name: str) -> str:
     recipe_dir = Path("./recipes/")
@@ -102,7 +115,7 @@ def recipe(name: str) -> str:
         return render_template(
             "recipe.html.jinja",
             name=name,
-            ingredients=recipe.ingredients,
+            ingredients=[ColorizedIngredient(i) for i in recipe.ingredients],
             steps=recipe.steps,
         )
     except FileNotFoundError:
