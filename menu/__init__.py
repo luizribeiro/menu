@@ -106,25 +106,18 @@ class VeryFirstMenuMealPlanner(MealPlanner):
     def get_menu(
         self, year: int, week: int
     ) -> Tuple[Sequence[str], Sequence[str]]:
+        menu = [
+            ("Gnocchi with pumpkin", "Winter vegetable bowls"),
+            ("Savory pancakes", "Pizza"),
+            ("Farro salad", "Kibe"),
+            ("Soylent", "Lentils with rice"),
+            ("Bagel with egg", "Roasted veggies + tenderloin"),
+            ("Mediterranean salad", "Roasted sweet potatoes"),
+            ("Quinoa bowls", "Tacos"),
+        ]
         return (
-            [
-                "Omelet",
-                "Rice and beans",
-                "Ravioli",
-                "Soylent",
-                "Mediterranean salad",
-                "Bagel with egg",
-                "Shakshuka",
-            ],
-            [
-                "Madalena",
-                "Pita bread with baharat cauliflower",
-                "Mushroom Risotto",
-                "Pea soup",
-                "Stuffed bell peppers",
-                "Pasta al Funghi",
-                "Tortellini soup",
-            ],
+            [lunch for lunch, _ in menu],
+            [dinner for _, dinner in menu],
         )
 
 
@@ -132,7 +125,7 @@ class VeryFirstMenuMealPlanner(MealPlanner):
 def _get_menu_impl(
     year: int, week: int
 ) -> Tuple[Sequence[str], Sequence[str]]:
-    if year < 2021 or week < 44:
+    if year < 2021 or week < 45:
         return VeryFirstMenuMealPlanner().get_menu(year, week)
     return CurrentMealPlanner().get_menu(year, week)
 
