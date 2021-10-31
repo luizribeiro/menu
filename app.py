@@ -80,10 +80,15 @@ def recipe(name: str) -> str:
         recipe = Recipe.parse(raw_recipe)
         fd.close()
 
-        return f"""
-Recipe: {name}
+        content = f"""
 Ingredients: {recipe.ingredients}
 Steps: {recipe.steps}
 """
+        return render_template(
+            "recipe.html.jinja",
+            name=name,
+            ingredients=recipe.ingredients,
+            steps=recipe.steps,
+        )
     except FileNotFoundError:
         abort(404)

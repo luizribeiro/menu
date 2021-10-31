@@ -1,0 +1,13 @@
+{% extends 'base.html.jinja' %}
+
+{% block content %}
+  <h1>{{name}}</h1>
+  <b>Ingredients</b><br />
+  {% for ingredient in ingredients %}
+  {{ingredient.name}}<br />
+  {% endfor %}
+  <b>Steps</b><br />
+  {% for step in steps %}
+  <p>{{step}}<p/>
+  {% endfor %}
+{% endblock %}
