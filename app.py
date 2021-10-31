@@ -3,7 +3,7 @@ import random
 from dataclasses import asdict
 from datetime import datetime, timedelta
 from pathlib import Path
-from typing import Dict
+from typing import Dict, Sequence
 from urllib.parse import quote as urlencode
 
 from flask import Flask, abort, redirect, render_template
@@ -100,6 +100,15 @@ class ColorizedIngredient(Ingredient):
         return "#" + "".join(f"{int(c * 255):02X}" for c in rgb)
 
 
+def colorize_recipe_step(
+    ingredients: Sequence[ColorizedIngredient],
+    step: str,
+) -> str:
+    for ingredient in ingredients:
+        step = step.replace(ingredient.name, f"<b>{ingredient.name}</b>")
+    return step
+
+
 @app.route("/recipe/<string:name>/")
 def recipe(name: str) -> str:
     recipe_dir = Path("./recipes/")
@@ -112,11 +121,15 @@ def recipe(name: str) -> str:
         recipe = Recipe.parse(raw_recipe)
         fd.close()
 
+        ingredients = [ColorizedIngredient(i) for i in recipe.ingredients]
         return render_template(
             "recipe.html.jinja",
             name=name,
-            ingredients=[ColorizedIngredient(i) for i in recipe.ingredients],
+            ingredients=ingredients,
             steps=recipe.steps,
+            colorize_recipe_step=lambda step: colorize_recipe_step(
+                ingredients, step
+            ),
         )
     except FileNotFoundError:
         abort(404)

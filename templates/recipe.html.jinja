@@ -18,7 +18,7 @@
   <h2>Steps</h2>
   <ol class="steps">
     {% for step in steps %}
-      <li>{{step}}</li>
+      <li>{{colorize_recipe_step(step)}}</li>
     {% endfor %}
   </ol>
 {% endblock %}
