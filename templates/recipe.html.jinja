@@ -6,12 +6,12 @@
   <h2>Ingredients</h2>
   <ul>
     {% for ingredient in ingredients %}
-      <li>{{ingredient.name}}</li>
+      <li>{{ingredient.name|capitalize}}</li>
     {% endfor %}
   </ul>
 
   <h2>Steps</h2>
-  <ol>
+  <ol class="steps">
     {% for step in steps %}
       <li>{{step}}</li>
     {% endfor %}
