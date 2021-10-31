@@ -1,10 +1,12 @@
 from datetime import datetime, timedelta
+from pathlib import Path
 from typing import Dict
 
-from flask import Flask, render_template
+from flask import Flask, abort, render_template
 
 import config
 import constants
+from cooklang import Recipe
 from menu import get_menu
 from utils import cache
 
@@ -64,3 +66,24 @@ def api_today() -> Dict[str, object]:
             "dinner": dinner_menu[day_of_the_week],
         }
     }
+
+
+@app.route("/recipe/<string:name>/")
+def recipe(name: str) -> str:
+    recipe_dir = Path("./recipes/")
+    file = Path(f"./recipes/{name}.cook")
+    if not file.is_relative_to(recipe_dir):
+        abort(500)
+    try:
+        fd = open(file, "r")
+        raw_recipe = fd.read()
+        recipe = Recipe.parse(raw_recipe)
+        fd.close()
+
+        return f"""
+Recipe: {name}
+Ingredients: {recipe.ingredients}
+Steps: {recipe.steps}
+"""
+    except FileNotFoundError:
+        abort(404)
