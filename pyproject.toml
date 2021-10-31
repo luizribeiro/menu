@@ -26,6 +26,7 @@ pyexpect = "^1.0.21"
 python-lsp-server = "^1.2.4"
 
 [tool.poetry.scripts]
+groceries = 'cli:groceries'
 menu = 'cli:menu'
 
 [build-system]
