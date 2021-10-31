@@ -54,6 +54,26 @@
         padding: 0;
       }
 
+      ul.ingredients {
+        margin-left: -1em;
+        list-style: none;
+      }
+
+      ul.ingredients > li {
+        position: relative;
+      }
+
+      ul.ingredients > li::before {
+        content: '';
+        width: 8px;
+        height: 8px;
+        background: var(--ingredient-color);
+        position: absolute;
+        left: -15px;
+        border: 1px solid #000;
+        top: 6px;
+      }
+
       body > ul.index > ul {
         padding-bottom: 2em;
       }

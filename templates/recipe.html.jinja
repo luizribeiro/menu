@@ -4,12 +4,10 @@
   <h1>{{name}}</h1>
 
   <h2>Ingredients</h2>
-  <ul>
+  <ul class="ingredients">
     {% for ingredient in ingredients %}
-    <li>
-      <font color="{{ingredient.get_color()}}">
-        {{ingredient.name|capitalize}}
-      </font>
+    <li style="--ingredient-color: {{ingredient.get_color()}};">
+      {{ingredient.name|capitalize}}
       {% if ingredient.quantity %}
         ({{ingredient.quantity.amount}} {{ingredient.quantity.unit}})
       {% endif %}

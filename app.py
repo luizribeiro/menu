@@ -96,7 +96,7 @@ class ColorizedIngredient(Ingredient):
 
     def get_color(self) -> str:
         random.seed(self.name)
-        rgb = colorsys.hls_to_rgb(random.random(), 0.3, 1.0)
+        rgb = colorsys.hls_to_rgb(random.random(), 0.45, 1.0)
         return "#" + "".join(f"{int(c * 255):02X}" for c in rgb)
 
 
