@@ -1,6 +1,7 @@
 from datetime import datetime, timedelta
 from pathlib import Path
 from typing import Dict
+from urllib.parse import quote as urlencode
 
 from flask import Flask, abort, render_template
 
@@ -60,10 +61,16 @@ def next_week() -> str:
 def api_today() -> Dict[str, object]:
     lunch_menu, dinner_menu = get_menu()
     day_of_the_week = get_day_of_the_week()
+    recipe = urlencode(
+        lunch_menu[day_of_the_week]
+        if datetime.now().hour <= 15
+        else dinner_menu[day_of_the_week]
+    )
     return {
         "today": {
             "lunch": lunch_menu[day_of_the_week],
             "dinner": dinner_menu[day_of_the_week],
+            "url": f"https://menu.thepromisedlan.club/recipes/{recipe}/",
         }
     }
 
