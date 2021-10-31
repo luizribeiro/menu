@@ -25,13 +25,13 @@ def get_day_of_the_week() -> int:
 def index() -> str:
     lunch_menu, dinner_menu = get_menu()
     current_day = get_day_of_the_week()
-    content = "<ul>"
+    content = '<ul class="index">'
     for i, day in enumerate(constants.DAYS):
         if i < current_day:
             continue
         klass = "today" if i == current_day else "future"
         content += f'<li class="{klass}"><b>{day}</b></li>'
-        content += '<ul class="{klass}">'
+        content += '<ul class="{klass} index">'
         content += f'<li class="{klass}"><b>Lunch:</b> <a href="/recipe/{lunch_menu[i]}">{lunch_menu[i]}</a></li>'  # noqa: E501
         content += f'<li class="{klass}"><b>Dinner:</b> <a href="/recipe/{dinner_menu[i]}">{dinner_menu[i]}</a></li>'  # noqa: E501
         content += "</ul>"
@@ -44,10 +44,10 @@ def index() -> str:
 def next_week() -> str:
     date = datetime.now(config.get_timezone()) + timedelta(weeks=+1)
     lunch_menu, dinner_menu = get_menu(date)
-    content = "<ul>"
+    content = '<ul class="index">'
     for i, day in enumerate(constants.DAYS):
         content += f"<li><b>{day}</b></li>"
-        content += "<ul>"
+        content += '<ul class="index">'
         content += f'<li><b>Lunch:</b> <a href="/recipe/{lunch_menu[i]}/">{lunch_menu[i]}</a></li>'  # noqa: E501
         content += f'<li><b>Dinner:</b> <a href="/recipe/{dinner_menu[i]}/">{dinner_menu[i]}</a></li>'  # noqa: E501
         content += "</ul>"

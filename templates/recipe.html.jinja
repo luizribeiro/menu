@@ -2,12 +2,18 @@
 
 {% block content %}
   <h1>{{name}}</h1>
-  <b>Ingredients</b><br />
-  {% for ingredient in ingredients %}
-  {{ingredient.name}}<br />
-  {% endfor %}
-  <b>Steps</b><br />
-  {% for step in steps %}
-  <p>{{step}}<p/>
-  {% endfor %}
+
+  <h2>Ingredients</h2>
+  <ul>
+    {% for ingredient in ingredients %}
+      <li>{{ingredient.name}}</li>
+    {% endfor %}
+  </ul>
+
+  <h2>Steps</h2>
+  <ol>
+    {% for step in steps %}
+      <li>{{step}}</li>
+    {% endfor %}
+  </ol>
 {% endblock %}
