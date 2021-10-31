@@ -1,3 +1,4 @@
+import re
 import colorsys
 import random
 from dataclasses import asdict
@@ -104,8 +105,20 @@ def colorize_recipe_step(
     ingredients: Sequence[ColorizedIngredient],
     step: str,
 ) -> str:
-    for ingredient in ingredients:
-        step = step.replace(ingredient.name, f"<b>{ingredient.name}</b>")
+    sorted_ingredients = list(ingredients)
+    sorted_ingredients.sort(key=lambda x: len(x.name), reverse=True)
+    for ingredient in sorted_ingredients:
+        step = re.sub(
+            r"(" + ingredient.name + r")(?![^<]*</span>)",
+            f"""
+            <span
+                class="ingredient"
+                style="--ingredient-color: {ingredient.get_color()};"
+            >
+                {ingredient.name}
+            </span>""",
+            step,
+        )
     return step
 
 

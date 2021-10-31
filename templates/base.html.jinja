@@ -75,6 +75,22 @@
         top: 6px;
       }
 
+      span.ingredient {
+        font-weight: bold;
+      }
+
+      span.ingredient::before {
+        display: inline-block;
+        content: '';
+        width: 8px;
+        height: 8px;
+        background: var(--ingredient-color);
+        left: -15px;
+        border: 1px solid #555;
+        border-radius: 3px;
+        top: 6px;
+      }
+
       body > ul.index > ul {
         padding-bottom: 2em;
       }
