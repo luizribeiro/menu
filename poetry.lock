@@ -47,10 +47,7 @@ pathspec = ">=0.9.0,<1"
 platformdirs = ">=2"
 regex = ">=2020.1.8"
 tomli = ">=0.2.6,<2.0.0"
-typing-extensions = [
-    {version = ">=3.10.0.0", markers = "python_version < \"3.10\""},
-    {version = "!=3.10.0.1", markers = "python_version >= \"3.10\""},
-]
+typing-extensions = ">=3.10.0.0"
 
 [package.extras]
 colorama = ["colorama (>=0.4.3)"]
@@ -636,8 +633,8 @@ watchdog = ["watchdog"]
 
 [metadata]
 lock-version = "1.1"
-python-versions = "^3.9"
-content-hash = "613736add0a14bc26ce0653bdee3867acabe0c4005be69a212c7942c448e5a06"
+python-versions = "3.9.7"
+content-hash = "59f852cb36c4d27650d1ac3afde01c7ba49c14af423742764a6218079802fec8"
 
 [metadata.files]
 apscheduler = [
