@@ -3,26 +3,46 @@
 {% block content %}
   <h1>{{name}}</h1>
 
-  <h2>Ingredients</h2>
-  <ul class="ingredients">
-    {% for ingredient in ingredients %}
-      {% if not is_common_ingredient(ingredient.name) %}
-        <li style="--ingredient-color: {{ingredient.get_color()}};">
-          {{ingredient.name|capitalize}}
-          {% if ingredient.quantity %}
-            ({{ingredient.render_quantity()}})
-          {% endif %}
-        </li>
-      {% endif %}
-    {% endfor %}
-  </ul>
+  {% if ingredients|length > 0 %}
+    <h2>Ingredients</h2>
+    <ul class="ingredients">
+      {% for ingredient in ingredients %}
+        {% if not is_common_ingredient(ingredient.name) %}
+          <li style="--ingredient-color: {{ingredient.get_color()}};">
+            {{ingredient.name|capitalize}}
+            {% if ingredient.quantity %}
+              ({{ingredient.render_quantity()}})
+            {% endif %}
+          </li>
+        {% endif %}
+      {% endfor %}
+    </ul>
 
-  <h2>Steps</h2>
-  <ol class="steps">
-    {% for step in steps %}
-      <li>{{colorize_recipe_step(step)}}</li>
-    {% endfor %}
-  </ol>
+    <h2>Steps</h2>
+    {% if steps|length > 0 %}
+      <ol class="steps">
+        {% for step in steps %}
+          <li>{{colorize_recipe_step(step)}}</li>
+        {% endfor %}
+      </ol>
+    {% else %}
+      <div class="error">
+        <p>Oh no! This recipe has no instructions. Good luck!</p>
+        <img
+          class="pusheen"
+          src="https://i.pinimg.com/originals/ca/2c/45/ca2c4514521fe2347d3eeb4e287be967.gif"
+        />
+      </div>
+    {% endif %}
+  {% else %}
+    <div class="error">
+      <p>Oh no! There is no recipe. Good luck!</p>
+      <img
+        class="pusheen"
+        src="https://i.pinimg.com/originals/ca/2c/45/ca2c4514521fe2347d3eeb4e287be967.gif"
+      />
+    </div>
+  {% endif %}
 
   <script src="https://richtr.github.io/NoSleep.js/dist/NoSleep.min.js" />
   <script>
