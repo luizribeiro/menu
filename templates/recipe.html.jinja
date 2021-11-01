@@ -7,10 +7,12 @@
   <ul class="ingredients">
     {% for ingredient in ingredients %}
     <li style="--ingredient-color: {{ingredient.get_color()}};">
-      {{ingredient.name|capitalize}}
-      {% if ingredient.quantity %}
-        ({{ingredient.quantity.amount}}{% if ingredient.quantity.unit %}
-          {{ingredient.quantity.unit}}{% endif %})
+      {% if not is_common_ingredient(ingredient.name) %}
+        {{ingredient.name|capitalize}}
+        {% if ingredient.quantity %}
+          ({{ingredient.quantity.amount}}{% if ingredient.quantity.unit %}
+            {{ingredient.quantity.unit}}{% endif %})
+        {% endif %}
       {% endif %}
     </li>
     {% endfor %}

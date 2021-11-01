@@ -1,4 +1,4 @@
-from typing import Mapping
+from typing import Mapping, Set
 
 DAYS = [
     "Sunday",
@@ -49,4 +49,11 @@ COLORS: Mapping[str, str] = {
     "shredded chicken": "#FCDBB8",
     "tahini": "#FCDCBF",
     "water": "#3C719C",
+}
+
+COMMON_INGREDIENTS: Set[str] = {
+    "olive oil",
+    "pepper",
+    "salt",
+    "water",
 }

@@ -138,6 +138,8 @@ def recipe(name: str) -> str:
             colorize_recipe_step=lambda step: colorize_recipe_step(
                 ingredients, step
             ),
+            is_common_ingredient=lambda x: x.lower()
+            in constants.COMMON_INGREDIENTS,
         )
     except BaseException:
         abort(404)
