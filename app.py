@@ -2,7 +2,6 @@ import re
 import colorsys
 import random
 from fractions import Fraction
-from dataclasses import asdict
 from datetime import datetime, timedelta
 from typing import Dict, Optional, Sequence
 from urllib.parse import quote as urlencode
