@@ -134,7 +134,8 @@ def colorize_recipe_step(
                     >{ingredient.name}</span>""",
             step,
         )
-    return step
+    # render fractions nicely with unicode
+    return re.sub(r"([0-9]+)/([0-9]+)", r"\1⁄\2", step)
 
 
 @app.route("/recipe/<string:name>/")
