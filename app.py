@@ -43,7 +43,7 @@ def index() -> str:
         content += "</ul>"
     content += "</ul>"
 
-    return render_template("index.html.jinja", content=content)
+    return render_template("index.html.jinja", title="Today", content=content)
 
 
 @app.route("/next_week")
@@ -59,7 +59,9 @@ def next_week() -> str:
         content += "</ul>"
     content += "</ul>"
 
-    return render_template("index.html.jinja", content=content)
+    return render_template(
+        "index.html.jinja", title="Next Week", content=content
+    )
 
 
 def _get_cook_url() -> str:

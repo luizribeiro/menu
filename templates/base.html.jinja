@@ -13,6 +13,8 @@
         font-family: "Open Sans", sans-serif;
         font-weight: 400;
         color: #2d3239;
+        padding: 0px;
+        margin: 0px;
       }
 
       a {
@@ -26,17 +28,25 @@
 
       html {
         background-color: #eee;
-        margin: auto;
-        padding: 10px;
       }
 
-      body {
+      div.contentWrapper {
+        text-align: center;
+        padding-left: 1em;
+        padding-right: 1em;
+      }
+
+      div.content {
+        text-align: left;
         border: 1px solid #ccc;
         block-size: fit-content;
         max-width: max-content;
-        margin: auto;
-        padding: 1em 2em 1em 2em;
+        padding: 0em 2em 0em 2em;
         background-color: #fff;
+        margin-top: 1em;
+        margin-bottom: 1em;
+        margin-right: auto;
+        margin-left: auto;
       }
 
       h1 {
@@ -46,6 +56,26 @@
 
       h2 {
         font-size: 1.2em;
+      }
+
+      ul.menu {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+        background-color: #ccc;
+        color: #000;
+        font-weight: 600;
+        text-align: center;
+      }
+
+      ul.menu li:first-child {
+        font-size: 1.3em;
+      }
+
+      ul.menu li {
+        vertical-align: middle;
+        display: inline-block;
+        padding: 0.5em 1em;
       }
 
       ul.index {
@@ -92,11 +122,11 @@
         margin-right: 2px;
       }
 
-      body > ul.index > ul {
+      div.content > ul.index > ul {
         padding-bottom: 2em;
       }
 
-      body > ul.index > li {
+      div.content > ul.index > li {
         text-align: center;
         padding: 0.25em;
       }
@@ -127,6 +157,16 @@
     </style>
   </head>
   <body>
-    {% block content %}{% endblock %}
+    <ul class="menu">
+      <li>🍽️ menu</li>
+      <li><a href="/">today</a></li>
+      <li><a href="/next_week">next week</a></li>
+    </ul>
+  </ul>
+    <div class="contentWrapper">
+      <div class="content">
+        {% block content %}{% endblock %}
+      </div>
+    </div>
   </body>
 </html>
