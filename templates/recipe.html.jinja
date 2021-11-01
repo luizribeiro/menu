@@ -10,8 +10,7 @@
         <li style="--ingredient-color: {{ingredient.get_color()}};">
           {{ingredient.name|capitalize}}
           {% if ingredient.quantity %}
-            ({{ingredient.quantity.amount}}{% if ingredient.quantity.unit %}
-              {{ingredient.quantity.unit}}{% endif %})
+            ({{ingredient.render_quantity()}})
           {% endif %}
         </li>
       {% endif %}

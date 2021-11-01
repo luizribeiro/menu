@@ -1,9 +1,10 @@
 import re
 import colorsys
 import random
+from fractions import Fraction
 from dataclasses import asdict
 from datetime import datetime, timedelta
-from typing import Dict, Sequence
+from typing import Dict, Optional, Sequence
 from urllib.parse import quote as urlencode
 
 from flask import Flask, abort, redirect, render_template
@@ -93,7 +94,7 @@ def cook() -> Response:
 
 class ColorizedIngredient(Ingredient):
     def __init__(self, ingredient: Ingredient) -> None:
-        super().__init__(**asdict(ingredient))
+        super().__init__(ingredient.name, ingredient.quantity)
 
     def get_color(self) -> str:
         name = self.name.lower()
@@ -102,6 +103,21 @@ class ColorizedIngredient(Ingredient):
         random.seed(name)
         rgb = colorsys.hls_to_rgb(random.random(), 0.45, 1.0)
         return "#" + "".join(f"{int(c * 255):02X}" for c in rgb)
+
+    def render_quantity(self) -> Optional[str]:
+        quantity = self.quantity
+        if quantity is None:
+            return None
+        raw_amount = quantity.amount
+        if isinstance(raw_amount, Fraction):
+            amount = f"{raw_amount.numerator}\u2044{raw_amount.denominator}"
+        elif isinstance(raw_amount, float):
+            amount = f"{round(raw_amount, 1)}"
+        else:
+            amount = f"{raw_amount}"
+        if quantity.unit:
+            return f"{amount} {quantity.unit}"
+        return f"{amount}"
 
 
 def colorize_recipe_step(
