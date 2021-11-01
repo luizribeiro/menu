@@ -113,13 +113,9 @@ def colorize_recipe_step(
     for ingredient in sorted_ingredients:
         step = re.sub(
             r"(" + ingredient.name + r")(?![^<]*</span>)",
-            f"""
-            <span
-                class="ingredient"
-                style="--ingredient-color: {ingredient.get_color()};"
-            >
-                {ingredient.name}
-            </span>""",
+            f"""<span class="ingredient"
+                    style="--ingredient-color: {ingredient.get_color()};"
+                    >{ingredient.name}</span>""",
             step,
         )
     return step
