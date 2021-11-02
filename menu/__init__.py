@@ -6,7 +6,6 @@ from typing import Dict, Optional, Sequence, Tuple
 import config
 from menu.models import Meal
 from menu.recipes import get_all_recipes
-from utils import cache
 
 
 class MealPlanner(ABC):
@@ -62,7 +61,7 @@ class CurrentMealPlanner(MealPlanner):
     def get_last_week_recipes(self, year: int, week: int) -> Sequence[str]:
         # FIXME: fix what happens over new years
         lunch, dinner = _get_menu_impl(year, week - 1)
-        return lunch + dinner
+        return list(lunch) + list(dinner)
 
     def get_menu(
         self, year: int, week: int
@@ -121,7 +120,6 @@ class VeryFirstMenuMealPlanner(MealPlanner):
         )
 
 
-@cache.memoize()
 def _get_menu_impl(
     year: int, week: int
 ) -> Tuple[Sequence[str], Sequence[str]]:

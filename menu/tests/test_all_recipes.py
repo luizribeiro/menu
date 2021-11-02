@@ -10,4 +10,4 @@ class RecipeTest(TestCase):
         recipes = get_all_recipes()
         for recipe in recipes:
             cooklang_recipe = get_recipe(recipe.name)
-            expect(cooklang_recipe).not_.to_be_none()
+            expect(cooklang_recipe).different(None)
