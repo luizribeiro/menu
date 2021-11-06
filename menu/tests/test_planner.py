@@ -27,7 +27,7 @@ class MealPlannerTest(TestCase):
                 ("Soylent", "Lentils with rice"),
                 ("Bagel with egg", "Roasted veggies + tenderloin"),
                 ("Mediterranean salad", "Roasted sweet potatoes"),
-                ("Quinoa bowls", "Tacos"),
+                ("Quinoa bowls", "Bread + cheese + olives"),
             ]
         )
 
@@ -36,11 +36,11 @@ class MealPlannerTest(TestCase):
         menu = list(zip(*get_menu(datetime.now(config.get_timezone()))))
         expect(menu).to_equal(
             [
-                ("Chickpea salad", "Tortellini soup"),
-                ("Rice and beans", "Lentil dahl"),
+                ("Chickpea salad", "Lentil dahl"),
+                ("Rice and beans", "Tortellini soup"),
                 ("Shakshuka", "Stuffed bell peppers"),
                 ("Farro salad", "Pea soup"),
-                ("Mediterranean salad", "Bread + cheese + olives"),
+                ("Mediterranean salad", "Tacos"),
                 ("Soylent", "Pasta al Funghi"),
                 ("Omelet", "Torta salgada"),
             ]
@@ -57,8 +57,8 @@ class MealPlannerTest(TestCase):
                     "Pita bread with baharat cauliflower",
                 ),
                 ("Savory pancakes", "Kibe"),
-                ("Soylent", "Tacos"),
-                ("Farro salad", "Lentils with rice"),
+                ("Soylent", "Lentils with rice"),
+                ("Farro salad", "Bread + cheese + olives"),
                 ("Bagel with egg", "Pizza"),
                 ("Quinoa bowls", "Madalena"),
             ]
