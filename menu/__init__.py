@@ -101,19 +101,30 @@ class CurrentMealPlanner(MealPlanner):
         )
 
 
-class VeryFirstMenuMealPlanner(MealPlanner):
+class HardCodedMenuMealPlanner(MealPlanner):
     def get_menu(
         self, year: int, week: int
     ) -> Tuple[Sequence[str], Sequence[str]]:
-        menu = [
-            ("Gnocchi with pumpkin", "Winter vegetable bowls"),
-            ("Savory pancakes", "Pizza"),
-            ("Farro salad", "Kibe"),
-            ("Soylent", "Lentils with rice"),
-            ("Bagel with egg", "Roasted veggies + tenderloin"),
-            ("Mediterranean salad", "Roasted sweet potatoes"),
-            ("Quinoa bowls", "Tacos"),
-        ]
+        if week == 45:
+            menu = [
+                ("Chickpea salad", "Tortellini soup"),
+                ("Rice and beans", "Lentil dahl"),
+                ("Shakshuka", "Stuffed bell peppers"),
+                ("Farro salad", "Pea soup"),
+                ("Mediterranean salad", "Bread + cheese + olives"),
+                ("Soylent", "Pasta al Funghi"),
+                ("Omelet", "Torta salgada"),
+            ]
+        else:
+            menu = [
+                ("Gnocchi with pumpkin", "Winter vegetable bowls"),
+                ("Savory pancakes", "Pizza"),
+                ("Farro salad", "Kibe"),
+                ("Soylent", "Lentils with rice"),
+                ("Bagel with egg", "Roasted veggies + tenderloin"),
+                ("Mediterranean salad", "Roasted sweet potatoes"),
+                ("Quinoa bowls", "Tacos"),
+            ]
         return (
             [lunch for lunch, _ in menu],
             [dinner for _, dinner in menu],
@@ -123,8 +134,8 @@ class VeryFirstMenuMealPlanner(MealPlanner):
 def _get_menu_impl(
     year: int, week: int
 ) -> Tuple[Sequence[str], Sequence[str]]:
-    if year < 2021 or week < 45:
-        return VeryFirstMenuMealPlanner().get_menu(year, week)
+    if year < 2021 or week < 46:
+        return HardCodedMenuMealPlanner().get_menu(year, week)
     return CurrentMealPlanner().get_menu(year, week)
 
 

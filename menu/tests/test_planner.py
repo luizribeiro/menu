@@ -37,11 +37,29 @@ class MealPlannerTest(TestCase):
         expect(menu).to_equal(
             [
                 ("Chickpea salad", "Tortellini soup"),
-                ("Rice and beans", "Pasta al Funghi"),
+                ("Rice and beans", "Lentil dahl"),
                 ("Shakshuka", "Stuffed bell peppers"),
                 ("Farro salad", "Pea soup"),
                 ("Mediterranean salad", "Bread + cheese + olives"),
-                ("Soylent", "Lentil dahl"),
+                ("Soylent", "Pasta al Funghi"),
                 ("Omelet", "Torta salgada"),
+            ]
+        )
+
+    @freeze_time(datetime(2021, 11, 14, tzinfo=config.get_timezone()))
+    def test_next_week_menu(self) -> None:
+        menu = list(zip(*get_menu(datetime.now(config.get_timezone()))))
+        expect(menu).to_equal(
+            [
+                ("Ravioli", "Alfredo Fusilli"),
+                (
+                    "Gnocchi with pumpkin",
+                    "Pita bread with baharat cauliflower",
+                ),
+                ("Savory pancakes", "Kibe"),
+                ("Soylent", "Tacos"),
+                ("Farro salad", "Lentils with rice"),
+                ("Bagel with egg", "Pizza"),
+                ("Quinoa bowls", "Madalena"),
             ]
         )
