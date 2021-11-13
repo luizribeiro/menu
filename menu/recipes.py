@@ -18,7 +18,7 @@ def get_all_recipes() -> Sequence[Recipe]:
         cooklang_recipes.append(
             (recipe_name, CookLangRecipe.parse(raw_recipe))
         )
-    return [
+    all_recipes = [
         Recipe(
             name=name,
             tags=set(recipe.metadata.get("tags", "").split(", ")),
@@ -26,6 +26,8 @@ def get_all_recipes() -> Sequence[Recipe]:
         )
         for name, recipe in cooklang_recipes
     ]
+    all_recipes.sort(key=lambda r: r.name)
+    return all_recipes
 
 
 def get_recipe(name: str) -> CookLangRecipe:
