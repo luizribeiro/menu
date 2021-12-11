@@ -105,25 +105,25 @@ class HardCodedMenuMealPlanner(MealPlanner):
     def get_menu(
         self, year: int, week: int
     ) -> Tuple[Sequence[str], Sequence[str]]:
-        if week == 45:
+        if week == 49:
             menu = [
-                ("Chickpea salad", "Lentil dahl"),
-                ("Rice and beans", "Tortellini soup"),
-                ("Shakshuka", "Stuffed bell peppers"),
-                ("Farro salad", "Pea soup"),
-                ("Mediterranean salad", "Tacos"),
-                ("Soylent", "Pasta al Funghi"),
-                ("Omelet", "Torta salgada"),
+                ("Rice and beans", "Stuffed bell peppers"),
+                ("Omelet", "Tortellini soup"),
+                ("Shakshuka", "Pizza"),
+                ("Soylent", "Torta salgada"),
+                ("Bagel with egg", "Pea soup"),
+                ("Mediterranean salad", "Lentil dahl"),
+                ("Chickpea salad", "Mushroom Risotto"),
             ]
-        else:
+        if week == 50:
             menu = [
-                ("Gnocchi with pumpkin", "Winter vegetable bowls"),
-                ("Savory pancakes", "Pizza"),
-                ("Farro salad", "Kibe"),
+                ("Shakshuka", "Roasted veggies + tenderloin"),
+                ("Savory pancakes", "Stuffed bell peppers"),
+                ("Ravioli", "Pita bread with baharat cauliflower"),
+                ("Mediterranean salad", "Madalena"),
+                ("Bagel with egg", "Pasta al Funghi"),
                 ("Soylent", "Lentils with rice"),
-                ("Bagel with egg", "Roasted veggies + tenderloin"),
-                ("Mediterranean salad", "Roasted sweet potatoes"),
-                ("Quinoa bowls", "Bread + cheese + olives"),
+                ("Gnocchi with pumpkin", "Tacos"),
             ]
         return (
             [lunch for lunch, _ in menu],
@@ -134,7 +134,7 @@ class HardCodedMenuMealPlanner(MealPlanner):
 def _get_menu_impl(
     year: int, week: int
 ) -> Tuple[Sequence[str], Sequence[str]]:
-    if year < 2021 or week < 46:
+    if year < 2021 or week <= 50:
         return HardCodedMenuMealPlanner().get_menu(year, week)
     return CurrentMealPlanner().get_menu(year, week)
 
