@@ -105,15 +105,15 @@ class HardCodedMenuMealPlanner(MealPlanner):
     def get_menu(
         self, year: int, week: int
     ) -> Tuple[Sequence[str], Sequence[str]]:
-        if week == 49:
+        if week == 51:
             menu = [
-                ("Rice and beans", "Stuffed bell peppers"),
-                ("Omelet", "Tortellini soup"),
-                ("Shakshuka", "Pizza"),
-                ("Soylent", "Torta salgada"),
-                ("Bagel with egg", "Pea soup"),
-                ("Mediterranean salad", "Lentil dahl"),
-                ("Chickpea salad", "Mushroom Risotto"),
+                ("Farro salad", "Tortellini soup"),
+                ("Chickpea salad", "Roasted sweet potatoes"),
+                ("Rice and beans", "Torta salgada"),
+                ("Bagel with egg", "Mushroom Risotto"),
+                ("Mediterranean salad", "Winter vegetable bowls"),
+                ("Wraps", "Kibe"),
+                ("Carne de Panela", "Pierogi"),
             ]
         if week == 50:
             menu = [
@@ -134,7 +134,7 @@ class HardCodedMenuMealPlanner(MealPlanner):
 def _get_menu_impl(
     year: int, week: int
 ) -> Tuple[Sequence[str], Sequence[str]]:
-    if year < 2021 or week <= 50:
+    if year < 2021 or week <= 51:
         return HardCodedMenuMealPlanner().get_menu(year, week)
     return CurrentMealPlanner().get_menu(year, week)
 

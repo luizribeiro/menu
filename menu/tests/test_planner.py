@@ -16,21 +16,6 @@ cache.init_app(app)
 
 
 class MealPlannerTest(TestCase):
-    @freeze_time(datetime(2021, 12, 5, tzinfo=config.get_timezone()))
-    def test_dec_11(self) -> None:
-        menu = list(zip(*get_menu(datetime.now(config.get_timezone()))))
-        expect(menu).to_equal(
-            [
-                ("Rice and beans", "Stuffed bell peppers"),
-                ("Omelet", "Tortellini soup"),
-                ("Shakshuka", "Pizza"),
-                ("Soylent", "Torta salgada"),
-                ("Bagel with egg", "Pea soup"),
-                ("Mediterranean salad", "Lentil dahl"),
-                ("Chickpea salad", "Mushroom Risotto"),
-            ]
-        )
-
     @freeze_time(datetime(2021, 12, 12, tzinfo=config.get_timezone()))
     def test_dec_12(self) -> None:
         menu = list(zip(*get_menu(datetime.now(config.get_timezone()))))
@@ -43,5 +28,20 @@ class MealPlannerTest(TestCase):
                 ("Bagel with egg", "Pasta al Funghi"),
                 ("Soylent", "Lentils with rice"),
                 ("Gnocchi with pumpkin", "Tacos"),
+            ]
+        )
+
+    @freeze_time(datetime(2021, 12, 19, tzinfo=config.get_timezone()))
+    def test_dec_19(self) -> None:
+        menu = list(zip(*get_menu(datetime.now(config.get_timezone()))))
+        expect(menu).to_equal(
+            [
+                ("Farro salad", "Tortellini soup"),
+                ("Chickpea salad", "Roasted sweet potatoes"),
+                ("Rice and beans", "Torta salgada"),
+                ("Bagel with egg", "Mushroom Risotto"),
+                ("Mediterranean salad", "Winter vegetable bowls"),
+                ("Wraps", "Kibe"),
+                ("Carne de Panela", "Pierogi"),
             ]
         )
