@@ -107,13 +107,13 @@ class HardCodedMenuMealPlanner(MealPlanner):
     ) -> Tuple[Sequence[str], Sequence[str]]:
         if week == 51:
             menu = [
-                ("Farro salad", "Tortellini soup"),
+                ("Farro salad", "Carne de Panela"),
                 ("Chickpea salad", "Roasted sweet potatoes"),
                 ("Rice and beans", "Torta salgada"),
                 ("Bagel with egg", "Mushroom Risotto"),
                 ("Mediterranean salad", "Winter vegetable bowls"),
                 ("Wraps", "Kibe"),
-                ("Carne de Panela", "Pierogi"),
+                ("Tortellini soup", "Pierogi"),
             ]
         if week == 50:
             menu = [
