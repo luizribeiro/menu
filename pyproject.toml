@@ -9,7 +9,7 @@ python = "3.9.6"
 Flask = "^2.0.2"
 gunicorn = "^20.1.0"
 APScheduler = "^3.8.0"
-pyre-extensions = "^0.0.23"
+pyre-extensions = "^0.0.27"
 Flask-Caching = "^1.10.1"
 cooklang = {git = "https://github.com/luizribeiro/py-cooklang.git", rev = "main"}
 click = "^8.0.3"
