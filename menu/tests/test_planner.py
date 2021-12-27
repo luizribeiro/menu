@@ -45,3 +45,18 @@ class MealPlannerTest(TestCase):
                 ("Tortellini soup", "Pierogi"),
             ]
         )
+
+    @freeze_time(datetime(2021, 12, 26, tzinfo=config.get_timezone()))
+    def test_dec_26(self) -> None:
+        menu = list(zip(*get_menu(datetime.now(config.get_timezone()))))
+        expect(menu).to_equal(
+            [
+                ("skip", "skip"),
+                ("skip", "skip"),
+                ("Savory pancakes", "Roasted veggies + tenderloin"),
+                ("Mediterranean salad", "Stuffed bell peppers"),
+                ("Bagel with egg", "Pizza"),
+                ("Farro salad", "Pasta al Funghi"),
+                ("Quinoa bowls", "Pea soup"),
+            ]
+        )
