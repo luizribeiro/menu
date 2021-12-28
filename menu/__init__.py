@@ -3,6 +3,8 @@ from abc import ABC, abstractmethod
 from datetime import datetime
 from typing import Dict, Optional, Sequence, Tuple
 
+import isoweek
+
 import config
 from menu.models import Meal
 from menu.recipes import get_all_recipes
@@ -59,8 +61,13 @@ class CurrentMealPlanner(MealPlanner):
     OVERRIDES: Dict[str, str] = {}
 
     def get_last_week_recipes(self, year: int, week: int) -> Sequence[str]:
-        # FIXME: fix what happens over new years
-        lunch, dinner = _get_menu_impl(year, week - 1)
+        if week == 1:
+            year = year - 1
+            week = isoweek.Week.last_week_of_year(year).week
+        else:
+            week = week - 1
+
+        lunch, dinner = _get_menu_impl(year, week)
         return list(lunch) + list(dinner)
 
     def get_menu(
@@ -144,7 +151,7 @@ class HardCodedMenuMealPlanner(MealPlanner):
 def _get_menu_impl(
     year: int, week: int
 ) -> Tuple[Sequence[str], Sequence[str]]:
-    if year < 2021 or week <= 52:
+    if year <= 2021 and week <= 52:
         return HardCodedMenuMealPlanner().get_menu(year, week)
     return CurrentMealPlanner().get_menu(year, week)
 
