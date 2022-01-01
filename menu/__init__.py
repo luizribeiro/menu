@@ -1,6 +1,6 @@
 import random
 from abc import ABC, abstractmethod
-from datetime import datetime
+from datetime import datetime, timedelta
 from typing import Dict, Optional, Sequence, Tuple
 
 import isoweek
@@ -61,13 +61,14 @@ class CurrentMealPlanner(MealPlanner):
     OVERRIDES: Dict[str, str] = {}
 
     def get_last_week_recipes(self, year: int, week: int) -> Sequence[str]:
-        if week == 1:
-            year = year - 1
-            week = isoweek.Week.last_week_of_year(year).week
-        else:
-            week = week - 1
-
-        lunch, dinner = _get_menu_impl(year, week)
+        this_week = datetime.strptime(f"{year} {week}", "%Y %U")
+        # this_week points to the first day of the week, so subtracting a day
+        # gives us the previous week
+        last_week = this_week - timedelta(days=1)
+        lunch, dinner = _get_menu_impl(
+            int(last_week.strftime("%Y")),
+            int(last_week.strftime("%U")),
+        )
         return list(lunch) + list(dinner)
 
     def get_menu(
@@ -151,6 +152,15 @@ class HardCodedMenuMealPlanner(MealPlanner):
 def _get_menu_impl(
     year: int, week: int
 ) -> Tuple[Sequence[str], Sequence[str]]:
+    if week == 0:
+        # for date format %U (week of the year), all days in a new preceding
+        # the first sunday year are considered to be in week 0, so we need to
+        # change them so they're in the last week of the previous year
+        date = datetime.strptime(f"{year-1}-12-31", "%Y-%m-%d")
+        return _get_menu_impl(
+            int(date.strftime("%Y")),
+            int(date.strftime("%U")),
+        )
     if year <= 2021 and week <= 52:
         return HardCodedMenuMealPlanner().get_menu(year, week)
     return CurrentMealPlanner().get_menu(year, week)
