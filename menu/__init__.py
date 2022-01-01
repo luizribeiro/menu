@@ -3,8 +3,6 @@ from abc import ABC, abstractmethod
 from datetime import datetime, timedelta
 from typing import Dict, Optional, Sequence, Tuple
 
-import isoweek
-
 import config
 from menu.models import Meal
 from menu.recipes import get_all_recipes
