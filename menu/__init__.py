@@ -113,36 +113,48 @@ class HardCodedMenuMealPlanner(MealPlanner):
     def get_menu(
         self, year: int, week: int
     ) -> Tuple[Sequence[str], Sequence[str]]:
-        if week == 52:
-            menu = [
-                ("skip", "skip"),
-                ("skip", "skip"),
-                ("Savory pancakes", "Roasted veggies + tenderloin"),
-                ("Mediterranean salad", "Stuffed bell peppers"),
-                ("Bagel with egg", "Pizza"),
-                ("Farro salad", "Pasta al Funghi"),
-                ("Quinoa bowls", "Pea soup"),
-            ]
-        if week == 51:
-            menu = [
-                ("Farro salad", "Carne de Panela"),
-                ("Chickpea salad", "Roasted sweet potatoes"),
-                ("Rice and beans", "Torta salgada"),
-                ("Bagel with egg", "Mushroom Risotto"),
-                ("Mediterranean salad", "Winter vegetable bowls"),
-                ("Wraps", "Kibe"),
-                ("Tortellini soup", "Pierogi"),
-            ]
-        if week == 50:
-            menu = [
-                ("Shakshuka", "Roasted veggies + tenderloin"),
-                ("Savory pancakes", "Stuffed bell peppers"),
-                ("Ravioli", "Pita bread with baharat cauliflower"),
-                ("Mediterranean salad", "Madalena"),
-                ("Bagel with egg", "Pasta al Funghi"),
-                ("Soylent", "Lentils with rice"),
-                ("Gnocchi with pumpkin", "Tacos"),
-            ]
+        if year == 2021:
+            if week == 52:
+                menu = [
+                    ("skip", "skip"),
+                    ("skip", "skip"),
+                    ("Savory pancakes", "Roasted veggies + tenderloin"),
+                    ("Mediterranean salad", "Stuffed bell peppers"),
+                    ("Bagel with egg", "Pizza"),
+                    ("Farro salad", "Pasta al Funghi"),
+                    ("Quinoa bowls", "Pea soup"),
+                ]
+            elif week == 51:
+                menu = [
+                    ("Farro salad", "Carne de Panela"),
+                    ("Chickpea salad", "Roasted sweet potatoes"),
+                    ("Rice and beans", "Torta salgada"),
+                    ("Bagel with egg", "Mushroom Risotto"),
+                    ("Mediterranean salad", "Winter vegetable bowls"),
+                    ("Wraps", "Kibe"),
+                    ("Tortellini soup", "Pierogi"),
+                ]
+            elif week == 50:
+                menu = [
+                    ("Shakshuka", "Roasted veggies + tenderloin"),
+                    ("Savory pancakes", "Stuffed bell peppers"),
+                    ("Ravioli", "Pita bread with baharat cauliflower"),
+                    ("Mediterranean salad", "Madalena"),
+                    ("Bagel with egg", "Pasta al Funghi"),
+                    ("Soylent", "Lentils with rice"),
+                    ("Gnocchi with pumpkin", "Tacos"),
+                ]
+        elif year == 2022:
+            if week == 1:
+                menu = [
+                    ("Wraps", "Bread + cheese + olives"),
+                    ("Ravioli", "Mushroom Risotto"),
+                    ("Shakshuka", "Tacos"),
+                    ("Bagel with egg", "Roasted sweet potatoes"),
+                    ("Farro salad", "Lentil dahl"),
+                    ("Mediterranean salad", "Gnocchi with pumpkin"),
+                    ("Chickpea salad", "Pita bread with baharat cauliflower"),
+                ]
         return (
             [lunch for lunch, _ in menu],
             [dinner for _, dinner in menu],
@@ -161,7 +173,7 @@ def _get_menu_impl(
             int(date.strftime("%Y")),
             int(date.strftime("%U")),
         )
-    if year <= 2021 and week <= 52:
+    if year <= 2021 and week <= 52 or year == 2022 and week <= 1:
         return HardCodedMenuMealPlanner().get_menu(year, week)
     return CurrentMealPlanner().get_menu(year, week)
 

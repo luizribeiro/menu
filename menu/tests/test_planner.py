@@ -81,12 +81,12 @@ class MealPlannerTest(TestCase):
         menu = list(zip(*get_menu(datetime.now(config.get_timezone()))))
         expect(menu).to_equal(
             [
-                ("Gnocchi with pumpkin", "Bread + cheese + olives"),
+                ("Wraps", "Bread + cheese + olives"),
                 ("Ravioli", "Mushroom Risotto"),
                 ("Shakshuka", "Tacos"),
                 ("Bagel with egg", "Roasted sweet potatoes"),
                 ("Farro salad", "Lentil dahl"),
-                ("Mediterranean salad", "Wraps"),
+                ("Mediterranean salad", "Gnocchi with pumpkin"),
                 ("Chickpea salad", "Pita bread with baharat cauliflower"),
             ]
         )
