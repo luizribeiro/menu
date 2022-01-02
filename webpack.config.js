@@ -1,11 +1,11 @@
 module.exports = {
   entry: {
-    main: "./frontend/SomePage.js",
+    main: "./frontend/SomePage.tsx",
   },
   module: {
     rules: [
       {
-        test: /\.js$/,
+        test: /\.(js|ts)x?$/,
         use: "babel-loader",
       },
       {

@@ -57,3 +57,7 @@ jobs:
         uses: borales/actions-yarn@v2.3.0
         with:
           cmd: build
+      - name: Check for TypeScript errors
+        uses: borales/actions-yarn@v2.3.0
+        with:
+          cmd: run tsc
