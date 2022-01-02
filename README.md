@@ -6,6 +6,13 @@
 
 ```
 honcho start
+yarn webpack watch --mode development
+```
+
+Or, if you want to debug or do hot reloading in Python:
+
+```
+FLASK_ENV=development flask run --host=0.0.0.0
 ```
 
 ## Deployment
