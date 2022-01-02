@@ -168,3 +168,8 @@ def recipe(name: str) -> str:
 @app.route("/static/<path:path>")
 def static_files(path: str) -> str:
     return send_from_directory("static", path)
+
+
+@app.route("/dist/<path:path>")
+def dist_files(path: str) -> str:
+    return send_from_directory("dist", path)

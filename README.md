@@ -14,6 +14,7 @@ honcho start
 dokku buildpacks:clear
 dokku buildpacks:add https://github.com/moneymeets/python-poetry-buildpack.git
 dokku buildpacks:add heroku/python
+dokku buildpacks:add heroku/nodejs
 dokku ps:scale jobs=1
 tail -n +3 .env | xargs dokku config:set
 dokku domains:add menu.thepromisedlan.club
