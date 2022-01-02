@@ -1,0 +1,145 @@
+body {
+  font-family: "Open Sans", sans-serif;
+  font-weight: 400;
+  color: #2d3239;
+  padding: 0px;
+  margin: 0px;
+}
+
+a {
+  color: #1c71b8;
+  text-decoration: none;
+}
+
+b {
+  font-weight: 700;
+}
+
+html {
+  background-color: #eee;
+}
+
+div.contentWrapper {
+  text-align: center;
+  padding-left: 1em;
+  padding-right: 1em;
+}
+
+div.content {
+  text-align: left;
+  border: 1px solid #ccc;
+  block-size: fit-content;
+  max-width: max-content;
+  padding: 0em 2em 0em 2em;
+  background-color: #fff;
+  margin-top: 1em;
+  margin-bottom: 1em;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+h1 {
+  font-size: 1.7em;
+  text-align: center;
+}
+
+h2 {
+  font-size: 1.2em;
+}
+
+ul.menu {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  background-color: #ccc;
+  color: #000;
+  font-weight: 600;
+  text-align: center;
+}
+
+ul.menu li:first-child {
+  font-size: 1.3em;
+}
+
+ul.menu li {
+  vertical-align: middle;
+  display: inline-block;
+  padding: 0.5em 1em;
+}
+
+ul.index {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+ul.ingredients {
+  margin-left: -1em;
+  list-style: none;
+}
+
+ul.ingredients > li {
+  position: relative;
+}
+
+ul.ingredients > li::before {
+  content: "";
+  width: 8px;
+  height: 8px;
+  background: var(--ingredient-color);
+  position: absolute;
+  left: -15px;
+  border: 1px solid #555;
+  border-radius: 3px;
+  top: 6px;
+}
+
+span.ingredient {
+  font-weight: bold;
+  white-space: nowrap;
+}
+
+span.ingredient::before {
+  display: inline-block;
+  content: "";
+  width: 8px;
+  height: 8px;
+  background: var(--ingredient-color);
+  border: 1px solid #555;
+  border-radius: 3px;
+  top: 6px;
+  margin-right: 2px;
+}
+
+div.content > ul.index > ul {
+  padding-bottom: 2em;
+}
+
+div.content > ul.index > li {
+  text-align: center;
+  padding: 0.25em;
+}
+
+ol.steps li {
+  padding-bottom: 1em;
+  padding-left: 10px;
+}
+
+ol.steps li::marker {
+  font-weight: bold;
+}
+
+.today {
+}
+
+.future {
+  color: #999;
+}
+
+.error {
+  text-align: center;
+}
+
+.pusheen {
+  width: 150px;
+}
