@@ -6,7 +6,13 @@ from datetime import datetime, timedelta
 from typing import Dict, Optional, Sequence
 from urllib.parse import quote as urlencode
 
-from flask import Flask, abort, redirect, render_template
+from flask import (
+    Flask,
+    abort,
+    redirect,
+    render_template,
+    send_from_directory,
+)
 from werkzeug.wrappers import Response
 
 import config
@@ -157,3 +163,8 @@ def recipe(name: str) -> str:
         )
     except BaseException:
         abort(404)
+
+
+@app.route("/static/<path:path>")
+def static(path: str) -> str:
+    return send_from_directory("static", path)
