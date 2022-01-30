@@ -153,6 +153,16 @@ class HardCodedMenuMealPlanner(MealPlanner):
                     ("Mediterranean salad", "Gnocchi with pumpkin"),
                     ("Chickpea salad", "Pita bread with baharat cauliflower"),
                 ]
+            elif week == 5:
+                menu = [
+                    ("skip", "Bread + cheese + olives"),
+                    ("Omelet", "Lentils with rice"),
+                    ("Ravioli", "Alfredo Fusilli"),
+                    ("Bagel with egg", "Winter vegetable bowls"),
+                    ("Soylent", "Pita bread with baharat cauliflower"),
+                    ("Farro salad", "Kibe"),
+                    ("Rice and beans", "Roasted sweet potatoes"),
+                ]
         return (
             [lunch for lunch, _ in menu],
             [dinner for _, dinner in menu],
@@ -171,7 +181,7 @@ def _get_menu_impl(
             int(date.strftime("%Y")),
             int(date.strftime("%U")),
         )
-    if year <= 2021 and week <= 52 or year == 2022 and week <= 1:
+    if year <= 2021 and week <= 52 or year == 2022 and week <= 5:
         return HardCodedMenuMealPlanner().get_menu(year, week)
     return CurrentMealPlanner().get_menu(year, week)
 
