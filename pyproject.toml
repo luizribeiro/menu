@@ -14,6 +14,7 @@ Flask-Caching = "^1.10.1"
 cooklang = {git = "https://github.com/luizribeiro/py-cooklang.git", rev = "main"}
 click = "^8.0.3"
 dateparser = "^1.1.0"
+tplib = { git = "https://github.com/luizribeiro/tplib", branch = "main" }
 
 [tool.poetry.dev-dependencies]
 honcho = "^1.0.1"

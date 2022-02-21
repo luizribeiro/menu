@@ -11,8 +11,10 @@ from flask import (
     abort,
     redirect,
     render_template,
+    request,
     send_from_directory,
 )
+from tplib import telegraf
 from werkzeug.wrappers import Response
 
 import config
@@ -83,6 +85,11 @@ def _get_cook_url() -> str:
 
 @app.route("/api/today")
 def api_today() -> Dict[str, object]:
+    try:
+        telegraf.log("menu/battery", value=float(request.args.get("bat")))
+    except TypeError:
+        pass
+
     lunch_menu, dinner_menu = get_menu()
     day_of_the_week = get_day_of_the_week()
     return {
