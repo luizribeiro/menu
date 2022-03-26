@@ -27,9 +27,19 @@ class CurrentMealPlanner(MealPlanner):
     PLAN: Sequence[Meal] = [
         Meal(name="Sunday Lunch", tags={"lunch"}, num_cooks=2),
         Meal(name="Sunday Dinner", tags={"dinner"}, num_cooks=2),
-        Meal(name="Monday Lunch", tags={"lunch"}, num_cooks=1.5),
+        Meal(
+            name="Monday Lunch",
+            tags={"lunch"},
+            num_cooks=0.5,
+            allow_repeat=True,
+        ),
         Meal(name="Monday Dinner", tags={"dinner"}, num_cooks=2),
-        Meal(name="Tuesday Lunch", tags={"lunch"}, num_cooks=1.5),
+        Meal(
+            name="Tuesday Lunch",
+            tags={"lunch"},
+            num_cooks=0.5,
+            allow_repeat=True,
+        ),
         Meal(name="Tuesday Dinner", tags={"dinner"}, num_cooks=2),
         Meal(
             name="Wednesday Lunch",
