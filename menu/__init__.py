@@ -86,6 +86,7 @@ class CurrentMealPlanner(MealPlanner):
 
         self._init_random_seed(year, week)
         recipes = list(get_all_recipes()).copy()
+        all_recipes = recipes.copy()
         random.shuffle(recipes)
 
         lunch_menu = []
@@ -98,17 +99,32 @@ class CurrentMealPlanner(MealPlanner):
                     )
                 )
             else:
-                recipe = next(
-                    filter(
-                        lambda r: r.fits(meal)
-                        and (
-                            meal.allow_repeat
-                            or r.name not in last_week_recipes
-                        ),
-                        recipes,
+                try:
+                    recipe = next(
+                        filter(
+                            lambda r: r.fits(meal)
+                            and (
+                                meal.allow_repeat
+                                or r.name not in last_week_recipes
+                            ),
+                            recipes,
+                        )
                     )
-                )
-            recipes.remove(recipe)
+                except StopIteration:
+                    # we basically ran out of recipes, just pick whatever
+                    # TODO: add test that covers this
+                    # TODO: randomize it a bit
+                    recipe = next(
+                        filter(
+                            lambda r: r.fits(meal),
+                            all_recipes,
+                        )
+                    )
+
+            try:
+                recipes.remove(recipe)
+            except ValueError:
+                pass
             (dinner_menu if index % 2 == 1 else lunch_menu).append(recipe)
 
         return (
