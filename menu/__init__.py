@@ -137,6 +137,15 @@ class HardCodedMenuMealPlanner(MealPlanner):
     def get_menu(
         self, year: int, week: int
     ) -> Tuple[Sequence[str], Sequence[str]]:
+        menu = [
+            ("skip", "skip"),
+            ("skip", "skip"),
+            ("skip", "skip"),
+            ("skip", "skip"),
+            ("skip", "skip"),
+            ("skip", "skip"),
+            ("skip", "skip"),
+        ]
         if year == 2021:
             if week == 52:
                 menu = [

@@ -86,7 +86,9 @@ def _get_cook_url() -> str:
 @app.route("/api/today")
 def api_today() -> Dict[str, object]:
     try:
-        telegraf.log("menu/battery", value=float(request.args.get("bat")))
+        battery_level = request.args.get("bat")
+        if battery_level is not None:
+            telegraf.log("menu/battery", value=float(battery_level))
     except TypeError:
         pass
 
@@ -173,10 +175,10 @@ def recipe(name: str) -> str:
 
 
 @app.route("/static/<path:path>")
-def static_files(path: str) -> str:
+def static_files(path: str) -> Response:
     return send_from_directory("static", path)
 
 
 @app.route("/dist/<path:path>")
-def dist_files(path: str) -> str:
+def dist_files(path: str) -> Response:
     return send_from_directory("dist", path)
