@@ -28,13 +28,15 @@
       let
         pkgs = import nixpkgs { inherit system; };
       in
+      with pkgs;
       {
-        devShell = pkgs.mkShell {
-          nativeBuildInputs = with pkgs; [
+        devShell = mkShell {
+          nativeBuildInputs = [
             python39
             python39Packages.poetry
             yarn
           ];
+          NIX_LD = lib.fileContents "${stdenv.cc}/nix-support/dynamic-linker";
         };
       });
 }
