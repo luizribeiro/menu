@@ -46,18 +46,18 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Install JS dependencies
-        uses: borales/actions-yarn@v2.3.0
+        uses: borales/actions-yarn@v3.0.0
         with:
           cmd: install
       - name: Check syntax with prettier
-        uses: borales/actions-yarn@v2.3.0
+        uses: borales/actions-yarn@v3.0.0
         with:
           cmd: run prettier --check .
       - name: Test webpack build
-        uses: borales/actions-yarn@v2.3.0
+        uses: borales/actions-yarn@v3.0.0
         with:
           cmd: build
       - name: Check for TypeScript errors
-        uses: borales/actions-yarn@v2.3.0
+        uses: borales/actions-yarn@v3.0.0
         with:
           cmd: run tsc
